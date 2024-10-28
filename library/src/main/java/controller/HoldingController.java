@@ -30,7 +30,7 @@ public class HoldingController {
 
     @PostMapping(value = "/checkin")
     public void checkin(@RequestBody CheckinRequest request) {
-        service.checkIn(request.getHoldingBarcode(), request.getCheckinDate(), request.getBranchScanCode());
+        service.checkIn(request.holdingBarcode(), request.checkinDate(), request.branchScanCode());
     }
 
     @GetMapping
