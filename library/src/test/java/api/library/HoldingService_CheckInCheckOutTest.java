@@ -35,7 +35,7 @@ public class HoldingService_CheckInCheckOutTest {
     }
 
     private String addBookHolding() {
-        Material material = new Material("123", "", "", "", MaterialType.Book, "");
+        Material material = new Material("123", "", "", "", MaterialType.BOOK, "");
         when(classificationApi.retrieveMaterial("123")).thenReturn(material);
         return service.add("123", branchScanCode);
     }
@@ -115,6 +115,6 @@ public class HoldingService_CheckInCheckOutTest {
 
         service.checkIn(bookHoldingBarcode, oneDayLate, branchScanCode);
 
-        assertThat(patronService.find(patronId).fineBalance(), equalTo(MaterialType.Book.getDailyFine()));
+        assertThat(patronService.find(patronId).fineBalance(), equalTo(MaterialType.BOOK.getDailyFine()));
     }
 }

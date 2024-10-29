@@ -28,7 +28,7 @@ public class ClassificationService implements ClassificationApi {
     private Material createMaterial(String sourceId, Map<String, Object> response) {
         Material material = new Material();
         material.setSourceId(sourceId);
-        material.setFormat(MaterialType.Book);
+        material.setFormat(MaterialType.BOOK);
         material.setTitle(getString(response, "title"));
         material.setYear(getString(response, "publish_date"));
         material.setAuthor(getFirstAuthorName(response));

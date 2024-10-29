@@ -1,9 +1,12 @@
 package domain.core;
 
-public class BranchNotFoundException extends RuntimeException {
-    public BranchNotFoundException(String message) {
-        super(message);
-    }
+import java.io.Serial;
 
-    private static final long serialVersionUID = 1L;
+public class BranchNotFoundException extends RuntimeException {
+   public BranchNotFoundException(String message) {
+      super(message);
+   }
+
+   @Serial
+   private static final long serialVersionUID = 1L;
 }

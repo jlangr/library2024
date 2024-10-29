@@ -1,10 +1,12 @@
 package domain.core;
 
+import java.util.Objects;
+
 public class Patron {
     private final String name;
     private String id;
-    private final HoldingMap s = new HoldingMap();
-    private int bal = 0;
+    private final HoldingMap holdings = new HoldingMap();
+    private int balance = 0;
 
     public Patron(String id, String name) {
         this.name = name;
@@ -38,41 +40,36 @@ public class Patron {
             return false;
         if ((object.getClass() != this.getClass()))
             return false;
-        Patron that = (Patron) object;
+        var that = (Patron) object;
         return this.getId().equals(that.getId());
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
     public HoldingMap holdingMap() {
-        return s;
+        return holdings;
     }
 
     public void add(Holding holding) {
-        s.add(holding);
+        holdings.add(holding);
     }
 
     public void remove(Holding holding) {
-        s.remove(holding);
+        holdings.remove(holding);
     }
 
     public int fineBalance() {
-        return bal;
+        return balance;
     }
 
-    /**
-     * add a fine to the patron's balance
-     *
-     * @param a the amount to add to the balance
-     */
     public void addFine(int a) {
-        bal += a;
+        balance += a;
     }
 
-    /**
-     * add a fine to the patron's balance
-     *
-     * @param a the amount to add to the balance
-     */
     public void remit(int a) {
-        bal -= a;
+        balance -= a;
     }
 }

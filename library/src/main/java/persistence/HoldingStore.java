@@ -3,6 +3,7 @@ package persistence;
 import domain.core.Holding;
 import util.MultiMap;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -51,6 +52,7 @@ public class HoldingStore implements Iterable<Holding> {
     }
 
     @Override
+    @Nonnull
     public Iterator<Holding> iterator() {
         return holdings.values().iterator();
     }

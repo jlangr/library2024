@@ -1,6 +1,6 @@
 package api.scanner;
 
-abstract public class AbstractScanStationState {
+public abstract class AbstractScanStationState {
     @Override
     public String toString() {
         return "state: " + getClass().getSimpleName();

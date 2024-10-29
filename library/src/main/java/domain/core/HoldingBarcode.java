@@ -14,23 +14,9 @@ public class HoldingBarcode {
         classification = extractClassification(barcode);
     }
 
-    public HoldingBarcode(String classification, int copyNumber) {
-        this.classification = classification;
-        this.copyNumber = copyNumber;
-    }
-
     // convenience method
     public static String getClassification(String barcode) {
         return new HoldingBarcode(barcode).getClassification();
-    }
-
-    // convenience method
-    public static int getCopyNumber(String barcode) {
-        return new HoldingBarcode(barcode).getCopyNumber();
-    }
-
-    public int getCopyNumber() {
-        return copyNumber;
     }
 
     public String getClassification() {
@@ -38,7 +24,7 @@ public class HoldingBarcode {
     }
 
     private int extractCopyNumber(String code) {
-        String copy = splitOnColon(code)[1];
+        var copy = splitOnColon(code)[1];
         return parsePositiveInt(copy);
     }
 
@@ -47,7 +33,7 @@ public class HoldingBarcode {
     }
 
     private int parsePositiveInt(String text) {
-        int number = parseInt(text);
+        var number = parseInt(text);
         if (number < 1)
             throw new IllegalArgumentException();
         return number;
@@ -56,13 +42,13 @@ public class HoldingBarcode {
     private int parseInt(String text) {
         try {
             return Integer.parseInt(text, 10);
-        } catch (Throwable t) {
+        } catch (Exception e) {
             throw new IllegalArgumentException();
         }
     }
 
     private String[] splitOnColon(String barcode) {
-        String[] barcodeParts = barcode.split(":");
+        var barcodeParts = barcode.split(":");
         if (barcodeParts.length != 2)
             throw new IllegalArgumentException();
         return barcodeParts;
@@ -90,7 +76,7 @@ public class HoldingBarcode {
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass())
             return false;
-        HoldingBarcode that = (HoldingBarcode) object;
+        var that = (HoldingBarcode) object;
         return getBarcode().equals(that.getBarcode());
     }
 }

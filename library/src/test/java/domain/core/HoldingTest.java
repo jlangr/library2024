@@ -31,7 +31,7 @@ This test class is a mess. Some of the opportunities for cleanup:
 public class HoldingTest {
     private static final Material THE_TRIAL = new Material("10", "", "10", "", "");
     private static final Material DR_STRANGELOVE = new Material("12", "", "11", "", MaterialType.DVD, "");
-    private static final Material THE_REVENANT = new Material("12", "", "11", "", MaterialType.NewReleaseDVD, "");
+    private static final Material THE_REVENANT = new Material("12", "", "11", "", MaterialType.NEW_RELEASE_DVD, "");
     private Holding h;
     private static final Date TODAY = new Date();
     private static final int COPY_NUMBER_1 = 1;
@@ -82,7 +82,7 @@ public class HoldingTest {
     public void returnDateForStandardBook() {
         h.checkOut(TODAY);
         Date dateDue = h.dateDue();
-        assertDateEquals(addDays(TODAY, MaterialType.Book.getCheckoutPeriod()), dateDue);
+        assertDateEquals(addDays(TODAY, MaterialType.BOOK.getCheckoutPeriod()), dateDue);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class HoldingTest {
 
         // childrens movie
         checkOutToday(THE_REVENANT, eastBranch);
-        expected = addDays(TODAY, MaterialType.NewReleaseDVD.getCheckoutPeriod());
+        expected = addDays(TODAY, MaterialType.NEW_RELEASE_DVD.getCheckoutPeriod());
         assertDateEquals(expected, h.dateDue());
     }
 

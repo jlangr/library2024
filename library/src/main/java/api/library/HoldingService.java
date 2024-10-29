@@ -2,6 +2,7 @@ package api.library;
 
 import com.loc.material.api.Material;
 import domain.core.*;
+import persistence.PatronNotFoundException;
 import persistence.PatronStore;
 
 import java.util.Calendar;
@@ -91,7 +92,7 @@ public class HoldingService {
             throw new HoldingNotFoundException();
 
         // set the holding to returned status
-        HoldingMap holdings = null;
+        HoldingMap holdings;
         hld.checkIn(date, branch);
 
         // locate the patron with the checked out book
@@ -106,6 +107,7 @@ public class HoldingService {
         }
 
         // remove the book from the patron
+        if (f == null) throw new PatronNotFoundException();
         f.remove(hld);
 
         // check for late returns
@@ -127,15 +129,14 @@ public class HoldingService {
             int daysLate = hld.daysLate(); // calculate # of days past due
             int fineBasis = hld.getMaterial().getFormat().getDailyFine();
             switch (hld.getMaterial().getFormat()) {
-                case Book:
+                case BOOK, NEW_RELEASE_DVD:
                     f.addFine(fineBasis * daysLate);
                     break;
                 case DVD:
                     int fine = Math.min(1000, 100 + fineBasis * daysLate);
                     f.addFine(fine);
                     break;
-                case NewReleaseDVD:
-                    f.addFine(fineBasis * daysLate);
+                default:
                     break;
             }
             return daysLate;
