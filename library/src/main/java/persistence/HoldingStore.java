@@ -6,9 +6,10 @@ import util.MultiMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 public class HoldingStore implements Iterable<Holding> {
-    private static final MultiMap<String, Holding> holdings = new MultiMap<String, Holding>();
+    private static final MultiMap<String, Holding> holdings = new MultiMap<>();
 
     public static void deleteAll() {
         holdings.clear();
@@ -24,24 +25,24 @@ public class HoldingStore implements Iterable<Holding> {
     }
 
     public List<Holding> findByClassification(String classification) {
-        List<Holding> results = holdings.get(classification);
+        var results = holdings.get(classification);
         if (results == null)
-            return new ArrayList<Holding>();
+            return new ArrayList<>();
         return results;
     }
 
     public Holding findByBarcode(String barCode) {
-        List<Holding> results = holdings.get(classificationFrom(barCode));
+        var results = holdings.get(classificationFrom(barCode));
         if (results == null)
             return null;
-        for (Holding holding : results)
-            if (holding.getBarcode().equals(barCode))
-                return holding;
-        return null;
+        return results.stream()
+           .filter(holding -> holding.getBarcode().equals(barCode))
+           .findFirst()
+           .orElse(null);
     }
 
     private String classificationFrom(String barCode) {
-        int index = barCode.indexOf(Holding.BARCODE_SEPARATOR);
+        var index = barCode.indexOf(Holding.BARCODE_SEPARATOR);
         return barCode.substring(0, index);
     }
 
@@ -55,10 +56,8 @@ public class HoldingStore implements Iterable<Holding> {
     }
 
     public List<Holding> findByBranch(String branchScanCode) {
-        List<Holding> results = new ArrayList<>();
-        for (Holding holding : this)
-            if (holding.getBranch().getScanCode().equals(branchScanCode))
-                results.add(holding);
-        return results;
+        return StreamSupport.stream(this.spliterator(), false)
+           .filter(holding -> holding.getBranch().getScanCode().equals(branchScanCode))
+           .toList();
     }
 }

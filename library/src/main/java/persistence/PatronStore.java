@@ -7,21 +7,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class PatronStore {
-    private static final Collection<Patron> patrons = new ArrayList<Patron>();
+    private static final Collection<Patron> patrons = new ArrayList<>();
     private static int idIndex = 0;
 
     public static void deleteAll() {
         patrons.clear();
     }
 
+    private static int incrementIdIndex() {
+       return ++idIndex;
+    }
+
     public void add(Patron patron) {
-        if (patron.getId() == "")
-            patron.setId("p" + (++idIndex));
+        if (patron.getId().isEmpty())
+            patron.setId("p" + incrementIdIndex());
         patrons.add(copy(patron));
     }
 
     private Patron copy(Patron patron) {
-        Patron newPatron = new Patron(patron.getName());
+        var newPatron = new Patron(patron.getName());
         newPatron.setId(patron.getId());
         return newPatron;
     }
@@ -31,16 +35,16 @@ public class PatronStore {
     }
 
     public void addHoldingToPatron(Patron patron, Holding holding) {
-        Patron found = find(patron.getId());
+        var found = find(patron.getId());
         if (found == null)
             throw new PatronNotFoundException();
         found.add(holding);
     }
 
     public Patron find(String id) {
-        for (Patron each : patrons)
-            if (id.equals(each.getId()))
-                return each;
-        return null;
+        return patrons.stream()
+           .filter(each -> id.equals(each.getId()))
+           .findFirst()
+           .orElse(null);
     }
 }
