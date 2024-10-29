@@ -2,7 +2,7 @@ package domain.core;
 
 public class Branch {
     public static final Branch CHECKED_OUT = new Branch("b999999", "unavailable");
-    private String name;
+    private final String name;
     private String scanCode;
 
     public Branch(String name) {

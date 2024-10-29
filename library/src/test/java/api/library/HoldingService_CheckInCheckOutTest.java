@@ -18,9 +18,9 @@ import static org.mockito.Mockito.when;
 import static util.matchers.HasExactlyItemsInAnyOrder.hasExactlyItemsInAnyOrder;
 
 public class HoldingService_CheckInCheckOutTest {
-    private HoldingService service = new HoldingService();
-    private PatronService patronService = new PatronService();
-    private ClassificationApi classificationApi = mock(ClassificationApi.class);
+    private final HoldingService service = new HoldingService();
+    private final PatronService patronService = new PatronService();
+    private final ClassificationApi classificationApi = mock(ClassificationApi.class);
     private String patronId;
     private String branchScanCode;
     private String bookHoldingBarcode;

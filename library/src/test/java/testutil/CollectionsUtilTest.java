@@ -15,7 +15,7 @@ public class CollectionsUtilTest {
     private Collection<Object> collection;
 
     @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
+    public final ExpectedException exceptionRule = ExpectedException.none();
 
     @Before
     public void initialize() {

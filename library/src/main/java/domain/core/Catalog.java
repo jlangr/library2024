@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Catalog implements Iterable<Holding> {
-    private HoldingStore access = new HoldingStore();
+    private final HoldingStore access = new HoldingStore();
 
     public int size() {
         return access.size();

@@ -12,8 +12,8 @@ public enum MaterialType {
     BluRay(3, 200),
     VideoCassette(7, 10);
 
-    private int checkoutPeriod;
-    private int dailyFine;
+    private final int checkoutPeriod;
+    private final int dailyFine;
 
     MaterialType(int checkoutPeriod) {
         this(checkoutPeriod, 10);

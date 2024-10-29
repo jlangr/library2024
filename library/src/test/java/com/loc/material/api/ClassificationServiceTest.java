@@ -1,7 +1,6 @@
 package com.loc.material.api;
 
 import org.junit.Test;
-import org.junit.Ignore;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -10,13 +9,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.client.RestTemplate;
 import testutil.Slow;
 
+import java.util.List;
 import java.util.Map;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
-import static util.MapUtil.createMap;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClassificationServiceTest {
@@ -33,14 +30,14 @@ public class ClassificationServiceTest {
 
     @Test
     public void retrieveMaterialPopulatesFromResponse() {
-        Map<Object, Object> responseMap = createMap(service.isbnKey(THE_ROAD_ISBN),
-                createMap("title", THE_ROAD_TITLE,
+        var responseMap = Map.of(service.isbnKey(THE_ROAD_ISBN),
+                Map.of("title", THE_ROAD_TITLE,
                         "publish_date", THE_ROAD_YEAR,
-                        "classifications", createMap("lc_classifications", asList(THE_ROAD_CLASSIFICATION)),
-                        "authors", asList(createMap("name", THE_ROAD_AUTHOR))));
+                        "classifications", Map.of("lc_classifications", List.of(THE_ROAD_CLASSIFICATION)),
+                        "authors", List.of(Map.of("name", THE_ROAD_AUTHOR))));
         when(restTemplate.getForObject(contains(THE_ROAD_ISBN), eq(Map.class))).thenReturn(responseMap);
 
-        Material material = service.retrieveMaterial(THE_ROAD_ISBN);
+        var material = service.retrieveMaterial(THE_ROAD_ISBN);
 
         assertMaterialDetailsForTheRoad(material);
     }
@@ -48,18 +45,18 @@ public class ClassificationServiceTest {
     @Category(Slow.class)
     @Test
     public void liveRetrieve() {
-        ClassificationService liveService = new ClassificationService();
+        var liveService = new ClassificationService();
 
-        Material material = liveService.retrieveMaterial(THE_ROAD_ISBN);
+        var material = liveService.retrieveMaterial(THE_ROAD_ISBN);
 
         assertMaterialDetailsForTheRoad(material);
     }
 
     private void assertMaterialDetailsForTheRoad(Material material) {
-        assertThat(material.getTitle(), equalTo(THE_ROAD_TITLE));
-        assertThat(material.getYear(), equalTo(THE_ROAD_YEAR));
-        assertThat(material.getAuthor(), equalTo(THE_ROAD_AUTHOR));
-        assertThat(material.getSourceId(), equalTo(THE_ROAD_ISBN));
-        assertThat(material.getClassification(), equalTo(THE_ROAD_CLASSIFICATION));
+        assertEquals(THE_ROAD_TITLE, material.getTitle());
+        assertEquals(THE_ROAD_YEAR, material.getYear());
+        assertEquals(THE_ROAD_AUTHOR, material.getAuthor());
+        assertEquals(THE_ROAD_ISBN, material.getSourceId());
+        assertEquals(THE_ROAD_CLASSIFICATION, material.getClassification());
     }
 }

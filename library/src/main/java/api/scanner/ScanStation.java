@@ -19,7 +19,7 @@ public class ScanStation implements ScanListener {
     private PatronService patronService = new PatronService();
     private BranchService branchService = new BranchService();
     private ScanStationState state = new ScanStationStateWaiting(this);
-    private ScanDisplayListener display;
+    private final ScanDisplayListener display;
     private Branch branch = Branch.CHECKED_OUT;
     private Patron patron;
 

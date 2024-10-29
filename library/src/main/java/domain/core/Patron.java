@@ -3,7 +3,7 @@ package domain.core;
 public class Patron {
     private final String name;
     private String id;
-    private HoldingMap s = new HoldingMap();
+    private final HoldingMap s = new HoldingMap();
     private int bal = 0;
 
     public Patron(String id, String name) {

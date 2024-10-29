@@ -10,7 +10,7 @@ import static util.matchers.LessThan.lessThan;
 
 public class LessThanTest {
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void passesWhenLessThan() {

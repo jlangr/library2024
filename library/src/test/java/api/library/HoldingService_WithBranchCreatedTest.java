@@ -18,8 +18,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class HoldingService_WithBranchCreatedTest {
-    private HoldingService service = new HoldingService();
-    private ClassificationApi classificationApi = mock(ClassificationApi.class);
+    private final HoldingService service = new HoldingService();
+    private final ClassificationApi classificationApi = mock(ClassificationApi.class);
     private String branchScanCode;
 
     @Before

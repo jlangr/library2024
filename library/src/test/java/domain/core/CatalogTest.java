@@ -15,8 +15,8 @@ import static org.junit.Assert.assertTrue;
 import static util.matchers.HasExactlyItems.hasExactlyItems;
 
 public class CatalogTest {
-    private Catalog catalog = new Catalog();
-    private HoldingBuilder holdingBuilder = new HoldingBuilder();
+    private final Catalog catalog = new Catalog();
+    private final HoldingBuilder holdingBuilder = new HoldingBuilder();
 
     @Before
     public void initialize() {

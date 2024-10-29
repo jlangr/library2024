@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequestMapping("/patrons")
 public class PatronController {
-    private PatronService service = new PatronService();
+    private final PatronService service = new PatronService();
 
     @PostMapping
     public String add(@RequestBody PatronRequest patronRequest) {

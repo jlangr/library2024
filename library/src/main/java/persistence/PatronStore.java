@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class PatronStore {
-    private static Collection<Patron> patrons = new ArrayList<Patron>();
+    private static final Collection<Patron> patrons = new ArrayList<Patron>();
     private static int idIndex = 0;
 
     public static void deleteAll() {

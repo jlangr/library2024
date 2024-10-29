@@ -4,11 +4,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class EqualityTester {
-    private Object object1;
-    private Object object1Copy1;
-    private Object object1Copy2;
-    private Object object2;
-    private Object object1Subtype;
+    private final Object object1;
+    private final Object object1Copy1;
+    private final Object object1Copy2;
+    private final Object object2;
+    private final Object object1Subtype;
 
     public EqualityTester(Object object1, Object object1Copy1,
                           Object object1Copy2, Object object2, Object object1Subtype) {

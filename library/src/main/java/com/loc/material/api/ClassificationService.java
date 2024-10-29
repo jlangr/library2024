@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ClassificationService implements ClassificationApi {
     public static final String SERVER = "http://openlibrary.org";
-    private RestTemplate template;
+    private final RestTemplate template;
 
     public ClassificationService() {
         template = RestUtil.createRestTemplate();

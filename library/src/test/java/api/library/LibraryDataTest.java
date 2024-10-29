@@ -13,9 +13,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class LibraryDataTest {
-    private PatronService patronService = new PatronService();
-    private HoldingService holdingService = new HoldingService();
-    private BranchService branchService = new BranchService();
+    private final PatronService patronService = new PatronService();
+    private final HoldingService holdingService = new HoldingService();
+    private final BranchService branchService = new BranchService();
     private ClassificationApi classificationApi;
 
     @Before

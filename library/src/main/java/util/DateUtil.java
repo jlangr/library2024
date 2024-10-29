@@ -6,16 +6,17 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import static java.util.Calendar.*;
 
 public class DateUtil {
-    private static Calendar calendar = GregorianCalendar.getInstance();
-    private static Calendar calendar2 = GregorianCalendar.getInstance();
+    private static final Calendar calendar = Calendar.getInstance();
+    private static final Calendar calendar2 = Calendar.getInstance();
 
     private static final Clock DEFAULT_CLOCK = Clock.systemDefaultZone();
     private static Clock clock = DEFAULT_CLOCK;
+
+    private DateUtil() {}
 
     public static void fixClockAt(Date date) {
         clock = Clock.fixed(date.toInstant(), ZoneId.systemDefault());
@@ -60,18 +61,18 @@ public class DateUtil {
     // this stinks
     public static int daysFrom(Date start, Date stop) {
         calendar.setTime(start);
-        Calendar stopCalendar = GregorianCalendar.getInstance();
+        var stopCalendar = Calendar.getInstance();
         stopCalendar.setTime(stop);
 
-        int startDays = calendar.get(DAY_OF_YEAR);
-        int startYear = calendar.get(YEAR);
-        int stopYear = stopCalendar.get(YEAR);
-        int stopDays = stopCalendar.get(DAY_OF_YEAR);
+        var startDays = calendar.get(DAY_OF_YEAR);
+        var startYear = calendar.get(YEAR);
+        var stopYear = stopCalendar.get(YEAR);
+        var stopDays = stopCalendar.get(DAY_OF_YEAR);
 
         if (startYear == stopYear) return stopDays - startDays;
 
-        int days = calendar.getActualMaximum(DAY_OF_YEAR) - startDays;
-        for (int i = startYear + 1; i < stopYear; i++) {
+        var days = calendar.getActualMaximum(DAY_OF_YEAR) - startDays;
+        for (var i = startYear + 1; i < stopYear; i++) {
             stopCalendar.set(YEAR, i);
             days += stopCalendar.getActualMaximum(DAY_OF_YEAR);
         }

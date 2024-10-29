@@ -54,7 +54,7 @@ public class Asserts {
     }
 
     class Portfolio {
-        private StockLookupSvc service;
+        private final StockLookupSvc service;
 
         Portfolio(StockLookupSvc service) {
             this.service = service;
@@ -88,7 +88,7 @@ public class Asserts {
     }
 
     public class Scanner {
-        private Auditor auditor;
+        private final Auditor auditor;
 
         public Scanner(Auditor auditor) {
             this.auditor = auditor;
@@ -110,7 +110,7 @@ public class Asserts {
         verify(auditor).recordEvent("scanned:123");
     }
 
-    private Auditor auditor = new Auditor();
+    private final Auditor auditor = new Auditor();
 
     public void Add(String word, String definition) {
         auditor.initialize();
@@ -128,8 +128,8 @@ public class Asserts {
     }
 
     class Item {
-        private String description;
-        private BigDecimal amount;
+        private final String description;
+        private final BigDecimal amount;
         private boolean isDiscountable = true;
 
         public Item(String description, BigDecimal price) {
@@ -161,11 +161,11 @@ public class Asserts {
     }
 
     class Register {
-        private List<Item> purchases = new ArrayList<>();
+        private final List<Item> purchases = new ArrayList<>();
         private BigDecimal total;
         private BigDecimal memberDiscount = BigDecimal.ZERO;
         private BigDecimal totalOfDiscountedItems;
-        private List<String> registerMessages = new ArrayList<>();
+        private final List<String> registerMessages = new ArrayList<>();
 
         BigDecimal getTotal() {
             return total;

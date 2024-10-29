@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BranchStore {
-    private static Map<String, Branch> branches = new HashMap<>();
+    private static final Map<String, Branch> branches = new HashMap<>();
     private static int idIndex = 0;
 
     public void save(Branch branch) {

@@ -11,6 +11,6 @@ public class State {
         return name + " (" + capital + ")";
     }
 
-    public String name;
-    public String capital;
+    public final String name;
+    public final String capital;
 }

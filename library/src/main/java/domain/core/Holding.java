@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Holding {
     public static final String BARCODE_SEPARATOR = ":";
-    private Material material;
+    private final Material material;
     private Branch branch;
     private Date dateCheckedOut;
     private Date dateLastCheckedIn;

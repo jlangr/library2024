@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequestMapping("/branches")
 public class BranchController {
-    private BranchService service = new BranchService();
+    private final BranchService service = new BranchService();
 
     @PostMapping
     public String add(@RequestBody BranchRequest branchRequest) {
@@ -20,7 +20,7 @@ public class BranchController {
     @GetMapping
     public List<BranchRequest> retrieveAll() {
         return service.allBranches().stream()
-                .map(branch -> new BranchRequest(branch))
-                .collect(toList());
+                .map(BranchRequest::new)
+                .toList();
     }
 }

@@ -1,18 +1,16 @@
 package controller;
 
 import api.library.HoldingService;
-import domain.core.Holding;
 import domain.core.HoldingAlreadyCheckedOutException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/holdings")
 public class HoldingController {
-    private HoldingService service = new HoldingService();
+    private final HoldingService service = new HoldingService();
 
     @PostMapping
     public String addBookHolding(@RequestBody AddHoldingRequest request) {
@@ -22,7 +20,7 @@ public class HoldingController {
     @PostMapping(value = "/checkout")
     public void checkout(@RequestBody CheckoutRequest request, HttpServletResponse response) {
         try {
-            service.checkOut(request.getPatronId(), request.getHoldingBarcode(), request.getCheckoutDate());
+            service.checkOut(request.patronId(), request.holdingBarcode(), request.checkoutDate());
         } catch (HoldingAlreadyCheckedOutException exception) {
             response.setStatus(409);
         }
@@ -35,11 +33,10 @@ public class HoldingController {
 
     @GetMapping
     public List<HoldingResponse> retrieveHoldingsByQuery(
-            @RequestParam(required = true, value = "branchScanCode") String scanCode) {
-        List<Holding> holdings = service.findByBranch(scanCode);
-        return holdings.stream()
-                .map(holding -> new HoldingResponse(holding))
-                .collect(Collectors.toList());
+            @RequestParam(value = "branchScanCode") String scanCode) {
+       return service.findByBranch(scanCode).stream()
+                .map(HoldingResponse::new)
+                .toList();
     }
 
     @GetMapping(value = "/{holdingBarcode}")

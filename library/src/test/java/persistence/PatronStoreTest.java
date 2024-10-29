@@ -16,7 +16,7 @@ import static util.matchers.HasExactlyItemsInAnyOrder.hasExactlyItemsInAnyOrder;
 
 public class PatronStoreTest {
     private PatronStore store;
-    private static Patron patronSmith = new Patron("p1", "joe");
+    private static final Patron patronSmith = new Patron("p1", "joe");
 
     @Before
     public void initialize() {

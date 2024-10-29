@@ -15,7 +15,7 @@ public class StateService {
         return filtered;
     }
 
-    private State[] allStates = {
+    private final State[] allStates = {
             new State("Alabama", "Montgomery"),
             new State("Alaska", "Juneau"),
             new State("Arizona", "Phoenix"),

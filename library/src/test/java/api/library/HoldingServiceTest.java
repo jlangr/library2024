@@ -17,10 +17,10 @@ import static org.mockito.Mockito.when;
 
 public class HoldingServiceTest {
     @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
+    public final ExpectedException expectedEx = ExpectedException.none();
 
-    private HoldingService service = new HoldingService();
-    private ClassificationApi classificationApi = mock(ClassificationApi.class);
+    private final HoldingService service = new HoldingService();
+    private final ClassificationApi classificationApi = mock(ClassificationApi.class);
     private String branchScanCode;
 
     @Before

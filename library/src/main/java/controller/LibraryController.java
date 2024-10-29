@@ -36,18 +36,18 @@ public class LibraryController {
 
     @PostMapping(value = "/materials")
     public void addMaterial(@RequestBody MaterialRequest materialRequest) {
-        LocalClassificationService service = (LocalClassificationService) ClassificationApiFactory.getService();
-        service.addBook(createMaterial(materialRequest));
+       ((LocalClassificationService) ClassificationApiFactory.getService())
+          .addBook(createMaterial(materialRequest));
     }
 
     private Material createMaterial(MaterialRequest materialRequest) {
-        Material material = new Material();
-        material.setSourceId(materialRequest.getSourceId());
-        material.setClassification(materialRequest.getClassification());
-        material.setTitle(materialRequest.getTitle());
-        material.setYear(materialRequest.getYear());
-        material.setFormat(MaterialType.valueOf(materialRequest.getFormat()));
-        material.setAuthor(materialRequest.getAuthor());
-        return material;
+       return new Material(
+          materialRequest.getSourceId(),
+          materialRequest.getAuthor(),
+          materialRequest.getTitle(),
+          materialRequest.getClassification(),
+          MaterialType.valueOf(materialRequest.getFormat()),
+          materialRequest.getYear()
+       );
     }
 }

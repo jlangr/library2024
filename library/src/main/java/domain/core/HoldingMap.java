@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class HoldingMap implements Iterable<Holding> {
-    private Map<String, Holding> holdings = new HashMap<String, Holding>();
+    private final Map<String, Holding> holdings = new HashMap<String, Holding>();
 
     public boolean isEmpty() {
         return 0 == size();

@@ -10,7 +10,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 public class LessThan extends TypeSafeMatcher<Number> {
-    private Number rhs;
+    private final Number rhs;
 
     public LessThan(Number rhs) {
         this.rhs = rhs;

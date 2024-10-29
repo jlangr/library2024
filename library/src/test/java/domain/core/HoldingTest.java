@@ -35,8 +35,8 @@ public class HoldingTest {
     private Holding h;
     private static final Date TODAY = new Date();
     private static final int COPY_NUMBER_1 = 1;
-    private Branch eastBranch = new Branch("East");
-    private Branch westBranch = new Branch("West");
+    private final Branch eastBranch = new Branch("East");
+    private final Branch westBranch = new Branch("West");
 
     @Before
     public void setUp() {

@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class HoldingStore implements Iterable<Holding> {
-    private static MultiMap<String, Holding> holdings = new MultiMap<String, Holding>();
+    private static final MultiMap<String, Holding> holdings = new MultiMap<String, Holding>();
 
     public static void deleteAll() {
         holdings.clear();

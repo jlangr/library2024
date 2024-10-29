@@ -17,9 +17,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class HoldingService_FindByBranchTest {
-    private HoldingService service = new HoldingService();
-    private ClassificationApi classificationApi = mock(ClassificationApi.class);
-    private BranchService branchService = new BranchService();
+    private final HoldingService service = new HoldingService();
+    private final ClassificationApi classificationApi = mock(ClassificationApi.class);
+    private final BranchService branchService = new BranchService();
 
     @Before
     public void initialize() {

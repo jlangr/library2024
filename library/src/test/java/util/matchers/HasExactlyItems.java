@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HasExactlyItems<T> extends TypeSafeMatcher<List<T>> {
-    private List<T> rhsItems;
+    private final List<T> rhsItems;
 
     public HasExactlyItems(List<T> rhsItems) {
         this.rhsItems = rhsItems;
