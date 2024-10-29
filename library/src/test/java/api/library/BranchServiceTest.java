@@ -3,14 +3,12 @@ package api.library;
 import domain.core.Branch;
 import org.junit.Before;
 import org.junit.Test;
-import util.ListUtil;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static util.matchers.HasExactlyItems.hasExactlyItems;
+import static org.junit.Assert.*;
+
+// TODO JUnit 5
 
 public class BranchServiceTest {
     private BranchService service;
@@ -27,7 +25,7 @@ public class BranchServiceTest {
 
         Branch branch = service.find("b2");
 
-        assertThat(branch.getName(), equalTo("name"));
+        assertEquals("name", branch.getName());
     }
 
     @Test(expected = DuplicateBranchCodeException.class)
@@ -43,29 +41,27 @@ public class BranchServiceTest {
 
     @Test
     public void answersGeneratedId() {
-        String scanCode = service.add("");
-
-        assertTrue(scanCode.startsWith("b"));
+       assertTrue(service.add("").startsWith("b"));
     }
 
     @Test
     public void findsBranchMatchingScanCode() {
-        String scanCode = service.add("a branch");
+        var scanCode = service.add("a branch");
 
-        Branch branch = service.find(scanCode);
+        var branch = service.find(scanCode);
 
-        assertThat(branch.getName(), equalTo("a branch"));
-        assertThat(branch.getScanCode(), equalTo(scanCode));
+        assertEquals("a branch", branch.getName());
+        assertEquals(scanCode, branch.getScanCode());
     }
 
     @Test
     public void returnsListOfAllPersistedBranches() {
-        String eastScanCode = service.add("e");
-        String westScanCode = service.add("w");
+        var eastScanCode = service.add("e");
+        var westScanCode = service.add("w");
 
-        List<Branch> all = service.allBranches();
+        var all = service.allBranches();
 
-        List<String> scanCodes = new ListUtil().map(all, "getScanCode", Branch.class, String.class);
-        assertThat(scanCodes, hasExactlyItems(eastScanCode, westScanCode));
+        var scanCodes = all.stream().map(Branch::getScanCode).toList();
+        assertEquals(List.of(eastScanCode, westScanCode), scanCodes);
     }
 }

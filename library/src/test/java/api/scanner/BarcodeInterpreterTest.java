@@ -2,34 +2,34 @@ package api.scanner;
 
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static api.scanner.BarcodeType.*;
+import static org.junit.Assert.assertEquals;
 
 public class BarcodeInterpreterTest {
     @Test
     public void returnsHoldingTypeWhenBarcodeContainsColon() {
-        assertThat(BarcodeInterpreter.typeOf("123:1"), equalTo(BarcodeType.HOLDING));
+        assertEquals(HOLDING, BarcodeInterpreter.typeOf("123:1"));
     }
 
     @Test
     public void returnsBranchTypeWhenStartsWithB() {
-        assertThat(BarcodeInterpreter.typeOf("b123"), equalTo(BarcodeType.BRANCH));
-        assertThat(BarcodeInterpreter.typeOf("B123"), equalTo(BarcodeType.BRANCH));
+        assertEquals(BRANCH, BarcodeInterpreter.typeOf("b123"));
+        assertEquals(BRANCH, BarcodeInterpreter.typeOf("B123"));
     }
 
     @Test
     public void returnsInventoryTypeWhenStartsWithI() {
-        assertThat(BarcodeInterpreter.typeOf("i111"), equalTo(BarcodeType.INVENTORY));
-        assertThat(BarcodeInterpreter.typeOf("I111"), equalTo(BarcodeType.INVENTORY));
+        assertEquals(INVENTORY, BarcodeInterpreter.typeOf("i111"));
+        assertEquals(INVENTORY, BarcodeInterpreter.typeOf("I111"));
     }
 
     @Test
     public void returnsPatronTypeWhenStartsWithP() {
-        assertThat(BarcodeInterpreter.typeOf("p123"), equalTo(BarcodeType.PATRON));
+        assertEquals(PATRON, BarcodeInterpreter.typeOf("p123"));
     }
 
     @Test
     public void returnsUnrecognizedTypeWhenOther() {
-        assertThat(BarcodeInterpreter.typeOf("123"), equalTo(BarcodeType.UNRECOGNIZED));
+        assertEquals(UNRECOGNIZED, BarcodeInterpreter.typeOf("123"));
     }
 }

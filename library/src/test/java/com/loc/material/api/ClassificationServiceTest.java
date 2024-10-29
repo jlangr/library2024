@@ -1,9 +1,9 @@
 package com.loc.material.api;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.client.RestTemplate;
@@ -25,8 +25,13 @@ public class ClassificationServiceTest {
 
     @Mock
     private RestTemplate restTemplate;
-    @InjectMocks
+
     private ClassificationService service;
+
+    @Before
+    public void setup() {
+        service = new ClassificationService(restTemplate);
+    }
 
     @Test
     public void retrieveMaterialPopulatesFromResponse() {

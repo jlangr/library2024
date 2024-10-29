@@ -26,7 +26,7 @@ public class ClassificationService implements ClassificationApi {
     }
 
     private Material createMaterial(String sourceId, Map<String, Object> response) {
-        Material material = new Material();
+        var material = new Material();
         material.setSourceId(sourceId);
         material.setFormat(MaterialType.BOOK);
         material.setTitle(getString(response, "title"));
@@ -40,11 +40,11 @@ public class ClassificationService implements ClassificationApi {
         @SuppressWarnings("unchecked")
         Map<String, Object> classifications = (Map<String, Object>) response.get("classifications");
         List<Object> libraryOfCongressClassifications = getList(classifications, "lc_classifications");
-        return (String) libraryOfCongressClassifications.get(0);
+        return (String) libraryOfCongressClassifications.getFirst();
     }
 
     private String getFirstAuthorName(Map<String, Object> map) {
-        Map<String, Object> firstAuthor = getMap(getList(map, "authors"), 0);
+        var firstAuthor = getMap(getList(map, "authors"), 0);
         return (String) firstAuthor.get("name");
     }
 
@@ -63,12 +63,12 @@ public class ClassificationService implements ClassificationApi {
     }
 
     private String url(String doc) {
-        return String.format(SERVER + doc);
+        return SERVER + doc;
     }
 
     @SuppressWarnings("unchecked")
     public Map<String, Object> retrieve(String sourceId) {
-        Map<String, Object> response = template.getForObject(url(findByDoc(isbnKey(sourceId))), Map.class);
+        var response = template.getForObject(url(findByDoc(isbnKey(sourceId))), Map.class);
         return (Map<String, Object>) response.get(isbnKey(sourceId));
     }
 

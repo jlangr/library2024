@@ -7,8 +7,7 @@ import org.junit.Test;
 import java.util.Collection;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static util.matchers.HasExactlyItemsInAnyOrder.hasExactlyItemsInAnyOrder;
 
 public class BranchStoreTest {
@@ -27,55 +26,55 @@ public class BranchStoreTest {
 
         store.save(branch);
 
-        assertThat(branch.getScanCode(), startsWith("b"));
+        assertTrue(branch.getScanCode().startsWith("b"));
     }
 
     @Test
     public void assignedIdIsUnique() {
-        Branch branchA = new Branch("a");
+        var branchA = new Branch("a");
         store.save(branchA);
-        Branch branchB = new Branch("b");
+        var branchB = new Branch("b");
 
         store.save(branchB);
 
-        assertThat(branchA.getScanCode(), not(equalTo(branchB.getScanCode())));
+        assertNotEquals(branchB.getScanCode(), branchA.getScanCode());
     }
 
     @Test
     public void doesNotChangeIdIfAlreadyAssigned() {
-        Branch branch = new Branch("b1964", "");
+        var branch = new Branch("b1964", "");
 
         store.save(branch);
 
-        assertThat(branch.getScanCode(), is("b1964"));
+        assertEquals("b1964", branch.getScanCode());
     }
 
     @Test
     public void returnsSavedBranches() {
         store.save(new Branch("name"));
 
-        Branch retrieved = store.findByName("name");
+        var retrieved = store.findByName("name");
 
         assertEquals("name", retrieved.getName());
     }
 
     @Test
     public void returnsNewInstanceOfPersistedBranch() {
-        Branch branch = new Branch("name");
+        var branch = new Branch("name");
         store.save(branch);
         store = new BranchStore();
 
-        Branch retrieved = store.findByName("name");
+        var retrieved = store.findByName("name");
 
-        assertThat(branch, not(sameInstance(retrieved)));
+        assertNotSame(branch, sameInstance(retrieved));
     }
 
     @Test
     public void returnsListOfAllBranches() {
-        Branch branch = new Branch("b123", "");
+        var branch = new Branch("b123", "");
         store.save(branch);
 
-        Collection<Branch> branches = store.getAll();
+        var branches = store.getAll();
 
         assertThat(branches, hasExactlyItemsInAnyOrder(branch));
     }
