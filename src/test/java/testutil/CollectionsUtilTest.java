@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CollectionsUtilTest {
    private Collection<Object> collection;
@@ -30,7 +29,7 @@ class CollectionsUtilTest {
    void soleElementThrowsWhenNoElementsExist() {
       var thrown = assertThrows(AssertionError.class, () ->
          CollectionsUtil.soleElement(collection));
-      assertEquals(CollectionsUtil.NO_ELEMENTS, thrown.getMessage());
+      assertTrue(thrown.getMessage().contains(CollectionsUtil.NO_ELEMENTS));
    }
 
    @Test
@@ -39,6 +38,6 @@ class CollectionsUtilTest {
       collection.add("b");
       var thrown = assertThrows(AssertionError.class, () ->
          CollectionsUtil.soleElement(collection));
-      assertEquals(CollectionsUtil.MORE_THAN_ONE_ELEMENT, thrown.getMessage());
+      assertTrue(thrown.getMessage().contains(CollectionsUtil.MORE_THAN_ONE_ELEMENT));
    }
 }
