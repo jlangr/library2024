@@ -1,20 +1,22 @@
 package com.loc.material.api;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import domain.core.ClassificationApiFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Mockito.when;
-import static util.StringUtils.removeHyphens;
 
 @ExtendWith(MockitoExtension.class)
 class ClassificationServiceTest {
@@ -26,49 +28,47 @@ class ClassificationServiceTest {
 
    @Mock
    IsbnClient isbnClient;
+   @Mock
+   AuthorClient authorClient;
 
    ClassificationService service;
 
    @BeforeEach
    void setup() {
-      service = new ClassificationService(isbnClient);
+      service = new ClassificationService(isbnClient, authorClient);
    }
 
+   // TODO should this throw exception instead?
    @Test
    void retrieveReturnsNullWhenNotFound() {
-//        when(restTemplate.getForObject(contains(THE_ROAD_ISBN), eq(Map.class))).thenReturn(responseMap);
+      when(isbnClient.retrieve(anyString())).thenReturn(null);
+
+      var material = service.retrieveMaterial(THE_ROAD_ISBN);
+
+      assertNull(material);
    }
 
    @Test
    void retrieveMaterialPopulatesFromResponse() {
-      var responseMap = Map.of(
-         "title", THE_ROAD_TITLE,
-         "publish_date", THE_ROAD_YEAR,
-         "lc_classifications", List.of(THE_ROAD_CLASSIFICATION),
-         "authors", List.of(Map.of("name", THE_ROAD_AUTHOR)));
-      when(isbnClient.retrieve(contains((removeHyphens(THE_ROAD_ISBN)))))
-         .thenReturn(responseMap);
-      // TODO when ...
+      when(isbnClient.retrieve(contains(THE_ROAD_ISBN)))
+         .thenReturn(Map.of(
+            "title", THE_ROAD_TITLE,
+            "publish_date", THE_ROAD_YEAR,
+            "lc_classifications", List.of(THE_ROAD_CLASSIFICATION),
+            "authors", List.of(Map.of("key", "/author/O123"))));
+      when(authorClient.retrieve("/author/O123"))
+         .thenReturn(Map.of("name", "Cormac McCarthy"));
 
       var material = service.retrieveMaterial(THE_ROAD_ISBN);
 
       assertMaterialDetailsForTheRoad(material);
    }
 
-   // TODO   @Category(Slow.class)
-   @Test
-   void liveRetrieve() {
-      var liveService = new ClassificationService(isbnClient);
-
-      var material = liveService.retrieveMaterial(THE_ROAD_ISBN);
-
-      assertMaterialDetailsForTheRoad(material);
-   }
 
    void assertMaterialDetailsForTheRoad(Material material) {
       assertEquals(THE_ROAD_TITLE, material.getTitle());
       assertEquals(THE_ROAD_YEAR, material.getYear());
-//      assertEquals(THE_ROAD_AUTHOR, material.getAuthor());
+      assertEquals(THE_ROAD_AUTHOR, material.getAuthor());
       assertEquals(THE_ROAD_ISBN, material.getSourceId());
       assertEquals(THE_ROAD_CLASSIFICATION, material.getClassification());
    }

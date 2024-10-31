@@ -8,21 +8,17 @@ import java.util.Map;
 
 public class ClassificationService implements ClassificationApi {
    private final IsbnClient isbnClient;
-   private Http http;
+   private final AuthorClient authorClient;
 
-   public ClassificationService(IsbnClient isbnClient) {
-      this.http = new Http();
-      this.isbnClient = new IsbnClient(http);
-   }
-
-   public ClassificationService(Http http) {
-      this.http = http;
-      isbnClient = new IsbnClient(http);
+   public ClassificationService(IsbnClient isbnClient, AuthorClient authorClient) {
+      this.authorClient = authorClient;
+      this.isbnClient = isbnClient;
    }
 
    @Override
    public Material retrieveMaterial(String sourceId) {
       var materialJsonObject = isbnClient.retrieve(sourceId);
+      if (materialJsonObject == null) return null;
 
       var author = retrieveFirstAuthor(materialJsonObject);
 
@@ -32,7 +28,6 @@ public class ClassificationService implements ClassificationApi {
    private Map<String, Object> retrieveFirstAuthor(Map<String, Object> jsonObject) {
       var authors = (List<Map<String,Object>>) jsonObject.get("authors");
       var firstAuthorKey = getString(authors.getFirst(), "key");
-      var authorClient = new AuthorClient(http);
       return authorClient.retrieve(firstAuthorKey);
    }
 
