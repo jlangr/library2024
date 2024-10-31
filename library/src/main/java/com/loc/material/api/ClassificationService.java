@@ -10,9 +10,9 @@ public class ClassificationService implements ClassificationApi {
    private final IsbnClient isbnClient;
    private Http http;
 
-   public ClassificationService() {
+   public ClassificationService(IsbnClient isbnClient) {
       this.http = new Http();
-      isbnClient = new IsbnClient(http);
+      this.isbnClient = new IsbnClient(http);
    }
 
    public ClassificationService(Http http) {
