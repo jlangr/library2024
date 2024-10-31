@@ -1,6 +1,7 @@
 package com.loc.material.api;
 
 import domain.core.ClassificationApiFactory;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,7 +13,7 @@ class ClassificationServiceIntegrationTest {
    static final String THE_ROAD_YEAR = "2006";
    static final String THE_ROAD_CLASSIFICATION = "PS3563.C337 R63 2006";
 
-   // TODO   @Category(Slow.class)
+   @Disabled("integration test; intermittent failure")
    @Test
    void liveRetrieve() {
       var liveService = ClassificationApiFactory.getService();

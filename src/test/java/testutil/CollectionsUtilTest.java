@@ -1,25 +1,20 @@
 package testutil;
 
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CollectionsUtilTest {
    private Collection<Object> collection;
 
-   @Rule
-   public final ExpectedException exceptionRule = ExpectedException.none();
-
    @BeforeEach
    void initialize() {
-      collection = new ArrayList<Object>();
+      collection = new ArrayList<>();
    }
 
    @Test
@@ -31,22 +26,19 @@ class CollectionsUtilTest {
       assertEquals("a", soleElement);
    }
 
-//   @Test
-//   void soleElementThrowsWhenNoElementsExist() {
-//      exceptionRule.expect(AssertionError.class);
-//      exceptionRule.expectMessage(CollectionsUtil.NO_ELEMENTS);
-//
-//      CollectionsUtil.soleElement(collection);
-//   }
-   // TODO these two
+   @Test
+   void soleElementThrowsWhenNoElementsExist() {
+      var thrown = assertThrows(AssertionError.class, () ->
+         CollectionsUtil.soleElement(collection));
+      assertEquals(CollectionsUtil.NO_ELEMENTS, thrown.getMessage());
+   }
 
-//   @Test
-//   void soleElementThrowsWhenMoreThanOneElement() {
-//      exceptionRule.expect(AssertionError.class);
-//      exceptionRule.expectMessage(CollectionsUtil.MORE_THAN_ONE_ELEMENT);
-//      collection.add("a");
-//      collection.add("b");
-//
-//      CollectionsUtil.soleElement(collection);
-//   }
+   @Test
+   void soleElementThrowsWhenMoreThanOneElement() {
+      collection.add("a");
+      collection.add("b");
+      var thrown = assertThrows(AssertionError.class, () ->
+         CollectionsUtil.soleElement(collection));
+      assertEquals(CollectionsUtil.MORE_THAN_ONE_ELEMENT, thrown.getMessage());
+   }
 }

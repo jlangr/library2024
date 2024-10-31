@@ -47,18 +47,19 @@ class HoldingService_CheckInCheckOutTest {
       assertFalse(service.isAvailable(bookHoldingBarcode));
    }
 
-//   @Test(expected = HoldingNotFoundException.class)
-//   void checkoutThrowsWhenHoldingIdNotFound() {
-//      service.checkOut(patronId, "999:1", new Date());
-//   }
-//
-//   @Test(expected = HoldingAlreadyCheckedOutException.class)
-//   void checkoutThrowsWhenUnavailable() {
-//      service.checkOut(patronId, bookHoldingBarcode, new Date());
-//
-//      service.checkOut(patronId, bookHoldingBarcode, new Date());
-//   }
-   // TODO
+   @Test
+   void checkoutThrowsWhenHoldingIdNotFound() {
+      assertThrows(HoldingNotFoundException.class, () ->
+         service.checkOut(patronId, "999:1", new Date()));
+   }
+
+   @Test
+   void checkoutThrowsWhenUnavailable() {
+      service.checkOut(patronId, bookHoldingBarcode, new Date());
+
+      assertThrows(HoldingAlreadyCheckedOutException.class, () ->
+         service.checkOut(patronId, bookHoldingBarcode, new Date()));
+   }
 
    @Test
    void updatesPatronWithHoldingOnCheckout() {

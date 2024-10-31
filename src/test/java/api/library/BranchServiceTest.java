@@ -8,8 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-// TODO JUnit 5
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BranchServiceTest {
    private BranchService service;
@@ -29,17 +28,18 @@ class BranchServiceTest {
       assertEquals("name", branch.getName());
    }
 
-//    @Test(expected = DuplicateBranchCodeException.class)
-//    void rejectsDuplicateScanCode() {
-//        service.add("", "b559");
-//        service.add("", "b559");
-//    }
-//
-//    @Test(expected = InvalidBranchCodeException.class)
-//    void rejectsScanCodeNotStartingWithB() {
-//        service.add("", "c2234");
-//    }
-   // TODO
+   @Test
+   void rejectsDuplicateScanCode() {
+      service.add("", "b559");
+      assertThrows(DuplicateBranchCodeException.class, () ->
+         service.add("", "b559"));
+   }
+
+   @Test
+   void rejectsScanCodeNotStartingWithB() {
+      assertThrows(InvalidBranchCodeException.class, () ->
+         service.add("", "c2234"));
+   }
 
    @Test
    void answersGeneratedId() {

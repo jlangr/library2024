@@ -1,5 +1,6 @@
 package domain.core;
 
+// TODO test
 public class HoldingBarcode {
     public static final String BARCODE_SEPARATOR = ":";
     private String classification;
@@ -26,7 +27,6 @@ public class HoldingBarcode {
         return classification;
     }
 
-    // TODO test
     public int getCopyNumber() {
         return copyNumber;
     }

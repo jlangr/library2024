@@ -21,8 +21,6 @@ public class Http {
    @SuppressWarnings("unchecked")
    public Map<String, Object> retrieveJson(String url) {
       try {
-         // TODO
-//         System.out.println("retrieving url: " + url);
          return template.getForObject(url, Map.class);
 
       } catch (HttpClientErrorException e) {

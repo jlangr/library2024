@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.PatronStore;
 
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PatronServiceTest {
@@ -32,17 +31,18 @@ class PatronServiceTest {
       assertEquals("xyz", patron.getName());
    }
 
-//   @Test(expected = InvalidPatronIdException.class)
-//   void rejectsPatronIdNotStartingWithP() {
-//      service.add("234", "");
-//   }
-//
-//   @Test(expected = DuplicatePatronException.class)
-//   void rejectsAddOfDuplicatePatron() {
-//      service.add("p556", "");
-//      service.add("p556", "");
-//   }
-   // TODO
+   @Test
+   void rejectsPatronIdNotStartingWithP() {
+      assertThrows(InvalidPatronIdException.class, () ->
+         service.add("234", ""));
+   }
+
+   @Test
+   void rejectsAddOfDuplicatePatron() {
+      service.add("p556", "");
+      assertThrows(DuplicatePatronException.class, () ->
+         service.add("p556", ""));
+   }
 
    @Test
    void answersNullWhenPatronNotFound() {

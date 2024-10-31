@@ -35,7 +35,6 @@ class ClassificationServiceTest {
       service = new ClassificationService(isbnClient, authorClient);
    }
 
-   // TODO should this throw exception instead?
    @Test
    void retrieveReturnsNullWhenNotFound() {
       when(isbnClient.retrieve(anyString())).thenReturn(null);

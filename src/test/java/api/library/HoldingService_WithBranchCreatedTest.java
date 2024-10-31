@@ -3,17 +3,13 @@ package api.library;
 import com.loc.material.api.ClassificationApi;
 import com.loc.material.api.Material;
 import domain.core.ClassificationApiFactory;
-import domain.core.Holding;
-import domain.core.HoldingMap;
 import domain.core.HoldingNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -67,11 +63,11 @@ class HoldingService_WithBranchCreatedTest {
       assertEquals(branchScanCode, holding.getBranch().getScanCode());
    }
 
-   // TODO
-//   @Test(expected = HoldingNotFoundException.class)
-//   void throwsOnTransferOfNonexistentHolding() {
-//      service.transfer("XXX:1", branchScanCode);
-//   }
+   @Test
+   void throwsOnTransferOfNonexistentHolding() {
+      assertThrows(HoldingNotFoundException.class, () ->
+         service.transfer("XXX:1", branchScanCode));
+   }
 
    @Test
    void holdingIsAvailableWhenNotCheckedOut() {
@@ -80,14 +76,16 @@ class HoldingService_WithBranchCreatedTest {
       assertTrue(service.isAvailable(barcode));
    }
 
-   // TODO
-//   @Test(expected = HoldingNotFoundException.class)
-//   void availabilityCheckThrowsWhenHoldingNotFound() {
-//      service.isAvailable("345:1");
-//   }
-//
-//   @Test(expected = HoldingNotFoundException.class)
-//   void checkinThrowsWhenHoldingIdNotFound() {
-//      service.checkIn("999:1", new Date(), branchScanCode);
-//   }
+   @Test
+   void availabilityCheckThrowsWhenHoldingNotFound() {
+      assertThrows(HoldingNotFoundException.class, () ->
+         service.isAvailable("345:1"));
+   }
+
+   @Test
+   void checkinThrowsWhenHoldingIdNotFound() {
+      var date = new Date();
+      assertThrows(HoldingNotFoundException.class, () ->
+         service.checkIn("999:1", date, branchScanCode));
+   }
 }

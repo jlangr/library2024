@@ -4,6 +4,7 @@ import domain.core.Holding;
 import domain.core.Patron;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.DateUtil;
 import util.DateUtilTest;
 import util.TimestampSource;
 
@@ -69,13 +70,14 @@ class ScanStationStateCheckoutTest extends ScanStationStateTestBase {
 
    @Test
    void checksOutHoldingWhenHoldingIdScanned() {
+      var someDate = DateUtil.create(2025, 12, 10);
       scanner.scanPatronId(PATRON_JOE_ID);
       when(holdingService.find("123:1")).thenReturn(holdingWithAvailability);
-      TimestampSource.queueNextTime(DateUtilTest.NEW_YEARS_DAY); // TODO don't import from other test
+      TimestampSource.queueNextTime(someDate);
 
       state.scanHolding("123:1");
 
-      verify(holdingService).checkOut(PATRON_JOE_ID, "123:1", DateUtilTest.NEW_YEARS_DAY);
+      verify(holdingService).checkOut(PATRON_JOE_ID, "123:1", someDate);
       assertMessageDisplayed(String.format(MSG_CHECKED_OUT, "123:1"));
       assertStateUnchanged();
    }

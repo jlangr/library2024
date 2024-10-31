@@ -77,11 +77,11 @@ class PatronStoreTest {
       assertEquals(List.of(holding), patron.holdingMap().holdings());
    }
 
-   // TODO
-//   @Test(expected = PatronNotFoundException.class)
-//   void throwsOnAddingHoldingToNonexistentPatron() {
-//      store.addHoldingToPatron(patronSmith, new HoldingBuilder().create());
-//   }
+   @Test
+   void throwsOnAddingHoldingToNonexistentPatron() {
+      assertThrows(PatronNotFoundException.class, () ->
+         store.addHoldingToPatron(patronSmith, new HoldingBuilder().create()));
+   }
 
    @Test
    void findsPersistedPatronById() {
