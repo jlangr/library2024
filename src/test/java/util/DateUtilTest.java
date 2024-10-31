@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -82,7 +84,7 @@ public class DateUtilTest {
 
       var date = getCurrentLocalDate();
 
-      assertEquals(NEW_YEARS_DAY, date);
+      assertEquals(NEW_YEARS_DAY, toDate(date));
    }
 
    @Test
