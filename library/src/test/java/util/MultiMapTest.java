@@ -6,93 +6,97 @@ import org.junit.Test;
 import java.util.Collection;
 import java.util.List;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static util.matchers.HasExactlyItemsInAnyOrder.hasExactlyItemsInAnyOrder;
+import static org.junit.Assert.assertEquals;
 
 public class MultiMapTest {
-    private MultiMap<Object, Object> map;
+   private MultiMap<String, String> map;
 
-    @Before
-    public void initialize() {
-        map = new MultiMap<Object, Object>();
-    }
+   @Before
+   public void initialize() {
+      map = new MultiMap<>();
+   }
 
-    @Test
-    public void isEmptyOnCreation() {
-        assertThat(map.size(), equalTo(0));
-        assertThat(map.valuesSize(), equalTo(0));
-    }
+   @Test
+   public void isEmptyOnCreation() {
+      assertEquals(0, map.size());
+      assertEquals(0, map.valuesSize());
+   }
 
-    @Test
-    public void returnsValuesAssociatedWithKeyAsList() {
-        map.put("a", "alpha");
+   @Test
+   public void returnsValuesAssociatedWithKeyAsList() {
+      map.put("a", "alpha");
 
-        List<Object> values = map.get("a");
+      var values = map.get("a");
 
-        assertThat(values, hasExactlyItemsInAnyOrder("alpha"));
-    }
+      assertEquals(List.of("alpha"), values);
+   }
 
-    @Test
-    public void incrementsSizeForMultipleKeys() {
-        map.put("a", "");
-        map.put("b", "");
+   @Test
+   public void incrementsSizeForMultipleKeys() {
+      map.put("a", "");
+      map.put("b", "");
 
-        assertThat(map.size(), equalTo(2));
-    }
+      assertEquals(2, map.size());
+   }
 
-    @Test
-    public void allowsMultipleElementsSameKey() {
-        map.put("a", "alpha1");
-        map.put("a", "alpha2");
+   @Test
+   public void allowsMultipleElementsSameKey() {
+      map.put("a", "alpha1");
+      map.put("a", "alpha2");
 
-        List<Object> values = map.get("a");
+      var values = map.get("a");
 
-        assertThat(values, hasExactlyItemsInAnyOrder("alpha2", "alpha1"));
-    }
+      assertEquals(List.of("alpha1", "alpha2"), sorted(values));
+   }
 
-    @Test
-    public void valuesSizeRepresentsTotalCountOfValues() {
-        map.put("a", "alpha");
-        map.put("b", "beta1");
-        map.put("b", "beta2");
+   @Test
+   public void valuesSizeRepresentsTotalCountOfValues() {
+      map.put("a", "alpha");
+      map.put("b", "beta1");
+      map.put("b", "beta2");
 
-        assertThat(map.valuesSize(), equalTo(3));
-    }
+      var size = map.valuesSize();
 
-    @Test
-    public void returnsOnlyValuesAssociatedWithKey() {
-        map.put("a", "alpha");
-        map.put("b", "beta");
+      assertEquals(3, size);
+   }
 
-        List<Object> values = map.get("b");
+   @Test
+   public void returnsOnlyValuesAssociatedWithKey() {
+      map.put("a", "alpha");
+      map.put("b", "beta");
 
-        assertThat(values, hasExactlyItemsInAnyOrder("beta"));
-    }
+      var values = map.get("b");
 
-    @Test(expected = NullPointerException.class)
-    public void throwsOnPutOfNullKey() {
-        map.put(null, "");
-    }
+      assertEquals(List.of("beta"), values);
+   }
 
-    @Test
-    public void clearEliminatesAllData() {
-        map.put("a", "");
-        map.put("b", "");
+   @Test(expected = NullPointerException.class)
+   public void throwsOnPutOfNullKey() {
+      map.put(null, "");
+   }
 
-        map.clear();
+   @Test
+   public void clearEliminatesAllData() {
+      map.put("a", "");
+      map.put("b", "");
 
-        assertThat(map.size(), equalTo(0));
-        assertThat(map.valuesSize(), equalTo(0));
-    }
+      map.clear();
 
-    @Test
-    public void returnsCombinedCollectionOfAllValues() {
-        map.put("a", "alpha");
-        map.put("b", "beta");
+      assertEquals(0, map.size());
+      assertEquals(0, map.valuesSize());
+   }
 
-        Collection<Object> values = map.values();
+   @Test
+   public void returnsCombinedCollectionOfAllValues() {
+      map.put("a", "alpha");
+      map.put("b", "beta");
 
-        assertThat(values, hasExactlyItemsInAnyOrder("alpha", "beta"));
-    }
+      var values = map.values();
+
+      assertEquals(List.of("alpha", "beta"), sorted(values));
+   }
+
+   private List<String> sorted(Collection<String> items) {
+      return items.stream().sorted().toList();
+   }
 }

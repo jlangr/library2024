@@ -1,82 +1,76 @@
 package com.loc.material.api;
 
-import org.springframework.web.client.RestTemplate;
-import util.RestUtil;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 // This class uses the Open Library API; see https://openlibrary.org/dev/docs/api/books
 
 public class ClassificationService implements ClassificationApi {
-    public static final String SERVER = "http://openlibrary.org";
-    private final RestTemplate template;
+   private final IsbnClient isbnClient;
+   private Http http;
 
-    public ClassificationService() {
-        template = RestUtil.createRestTemplate();
-    }
+   public ClassificationService() {
+      this.http = new Http();
+      isbnClient = new IsbnClient(http);
+   }
 
-    public ClassificationService(RestTemplate restTemplate) {
-        template = restTemplate;
-    }
+   public ClassificationService(Http http) {
+      this.http = http;
+      isbnClient = new IsbnClient(http);
+   }
 
-    @Override
-    public Material retrieveMaterial(String sourceId) {
-        return createMaterial(sourceId, retrieve(sourceId));
-    }
+   @Override
+   public Material retrieveMaterial(String sourceId) {
+      var materialJsonObject = isbnClient.retrieve(sourceId);
+      return createMaterial(sourceId, materialJsonObject);
+   }
 
-    private Material createMaterial(String sourceId, Map<String, Object> response) {
-        var material = new Material();
-        material.setSourceId(sourceId);
-        material.setFormat(MaterialType.BOOK);
-        material.setTitle(getString(response, "title"));
-        material.setYear(getString(response, "publish_date"));
-        material.setAuthor(getFirstAuthorName(response));
-        material.setClassification(getLibraryOfCongressClassification(response));
-        return material;
-    }
+   private Material createMaterial(String sourceId, Map<String, Object> jsonObject) {
+      var material = new Material();
+      material.setSourceId(sourceId);
+      material.setFormat(MaterialType.BOOK);
+      material.setTitle(getString(jsonObject, "title"));
+      material.setYear(getString(jsonObject, "publish_date"));
 
-    private String getLibraryOfCongressClassification(Map<String, Object> response) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> classifications = (Map<String, Object>) response.get("classifications");
-        List<Object> libraryOfCongressClassifications = getList(classifications, "lc_classifications");
-        return (String) libraryOfCongressClassifications.getFirst();
-    }
 
-    private String getFirstAuthorName(Map<String, Object> map) {
-        var firstAuthor = getMap(getList(map, "authors"), 0);
-        return (String) firstAuthor.get("name");
-    }
 
-    @SuppressWarnings("unchecked")
-    private List<Object> getList(Map<String, Object> map, String key) {
-        return (List<Object>) map.get(key);
-    }
+      var authors = (List<Map<String,Object>>) jsonObject.get("authors");
+      System.out.println("authors: " + authors);
+//      var firstAuthorName = getString(authors.getFirst(), "name");
+      var firstAuthorKey = getString(authors.getFirst(), "key");
+      var authorClient = new AuthorClient(http);
+      var author = authorClient.retrieve(firstAuthorKey);
+      System.out.println("author: " + author);
 
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> getMap(List<Object> list, int index) {
-        return (Map<String, Object>) list.get(index);
-    }
+      material.setAuthor(getString(author, "name"));
 
-    private String getString(Map<String, Object> map, String key) {
-        return (String) map.get(key);
-    }
+      material.setClassification(getLibraryOfCongressClassification(jsonObject));
+      return material;
+   }
 
-    private String url(String doc) {
-        return SERVER + doc;
-    }
+   private String getLibraryOfCongressClassification(Map<String, Object> response) {
+      @SuppressWarnings("unchecked")
+      var classifications = getList(response, "lc_classifications");
+      return classifications.get(0);
+   }
 
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> retrieve(String sourceId) {
-        var response = template.getForObject(url(findByDoc(isbnKey(sourceId))), Map.class);
-        return (Map<String, Object>) response.get(isbnKey(sourceId));
-    }
+   @SuppressWarnings("unchecked")
+   private List<String> getList(Map<String, Object> response, String key) {
+      return new ArrayList<>((List<String>) response.get(key));
+   }
 
-    private String findByDoc(String bibKey) {
-        return "/api/books?bibkeys=" + bibKey + "&jscmd=data&format=json";
-    }
+//   private String getFirstAuthorName(Map<String, Object> map) {
+//      var firstAuthor = getMap(getList(map, "authors"), 0);
+//      return (String) firstAuthor.get("name");
+//   }
 
-    String isbnKey(String sourceId) {
-        return "ISBN:" + sourceId;
-    }
+   @SuppressWarnings("unchecked")
+   private Map<String, Object> getMap(List<Object> list, int index) {
+      return (Map<String, Object>) list.get(index);
+   }
+
+   private String getString(Map<String, Object> map, String key) {
+      return (String) map.get(key);
+   }
 }

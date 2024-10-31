@@ -14,13 +14,21 @@ public class HoldingBarcode {
         classification = extractClassification(barcode);
     }
 
-    // convenience method
+    public static int getCopyNumber(String barcode) {
+        return new HoldingBarcode(barcode).getCopyNumber();
+    }
+
     public static String getClassification(String barcode) {
         return new HoldingBarcode(barcode).getClassification();
     }
 
     public String getClassification() {
         return classification;
+    }
+
+    // TODO test
+    public int getCopyNumber() {
+        return copyNumber;
     }
 
     private int extractCopyNumber(String code) {

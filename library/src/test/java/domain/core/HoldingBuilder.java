@@ -1,33 +1,26 @@
 package domain.core;
 
 import com.loc.material.api.Material;
+import com.loc.material.api.MaterialType;
 
 public class HoldingBuilder {
-    private Material material = new Material("1", "", "1", "", "");
+    private String classification = "";
     private int copyNumber = 1;
     private Branch branch = Branch.CHECKED_OUT;
 
-    public HoldingBuilder with(Material material) {
-        this.material = material;
-        return this;
-    }
-
     public HoldingBuilder withClassification(String classification) {
-        this.material = new Material(classification, "", classification, "", "");
+        this.classification = classification;
         return this;
     }
 
-    public HoldingBuilder withCopy(int copyNumber) {
-        this.copyNumber = copyNumber;
-        return this;
-    }
-
-    public HoldingBuilder atBranch(Branch branch) {
-        this.branch = branch;
+    public HoldingBuilder withBarcode(String barcode) {
+        this.copyNumber = HoldingBarcode.getCopyNumber(barcode);
+        this.classification = HoldingBarcode.getClassification(barcode);
         return this;
     }
 
     public Holding create() {
+        var material = new Material("1", "", "1", classification, "");
         return new Holding(material, branch, copyNumber);
     }
 }
