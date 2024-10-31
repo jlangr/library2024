@@ -5,37 +5,37 @@ import com.loc.material.api.Material;
 import domain.core.Branch;
 import domain.core.ClassificationApiFactory;
 import domain.core.Patron;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class LibraryDataTest {
-    private final PatronService patronService = new PatronService();
-    private final HoldingService holdingService = new HoldingService();
-    private final BranchService branchService = new BranchService();
-    private ClassificationApi classificationApi;
+class LibraryDataTest {
+   final PatronService patronService = new PatronService();
+   final HoldingService holdingService = new HoldingService();
+   final BranchService branchService = new BranchService();
+   ClassificationApi classificationApi;
 
-    @Before
-    public void setUpClassificationService() {
-        classificationApi = mock(ClassificationApi.class);
-        ClassificationApiFactory.setService(classificationApi);
-    }
+   @BeforeEach
+   void setUpClassificationService() {
+      classificationApi = mock(ClassificationApi.class);
+      ClassificationApiFactory.setService(classificationApi);
+   }
 
-    @Test
-    public void deleteAllRemovesAllPatrons() {
-        patronService.patronAccess.add(new Patron("", "1"));
-        branchService.add("2");
-        Material material = new Material("3", "", "", "", "");
-        when(classificationApi.retrieveMaterial("3")).thenReturn(material);
-        holdingService.add(material.getSourceId(), Branch.CHECKED_OUT.getScanCode());
+   @Test
+   void deleteAllRemovesAllPatrons() {
+      patronService.patronAccess.add(new Patron("", "1"));
+      branchService.add("2");
+      var material = new Material("3", "", "", "", "");
+      when(classificationApi.retrieveMaterial("3")).thenReturn(material);
+      holdingService.add(material.getSourceId(), Branch.CHECKED_OUT.getScanCode());
 
-        LibraryData.deleteAll();
+      LibraryData.deleteAll();
 
-        assertTrue(patronService.allPatrons().isEmpty());
-        assertTrue(holdingService.allHoldings().isEmpty());
-        assertTrue(branchService.allBranches().isEmpty());
-    }
+      assertTrue(patronService.allPatrons().isEmpty());
+      assertTrue(holdingService.allHoldings().isEmpty());
+      assertTrue(branchService.allBranches().isEmpty());
+   }
 }

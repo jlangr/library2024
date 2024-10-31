@@ -1,54 +1,54 @@
 package domain.core;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class HoldingMapTest {
+class HoldingMapTest {
    private HoldingMap map;
    private Holding holding;
 
-   @Before
-   public void initialize() {
+   @BeforeEach
+   void initialize() {
       map = new HoldingMap();
       holding = new HoldingBuilder().create();
    }
 
    @Test
-   public void isEmptyWhenCreated() {
+   void isEmptyWhenCreated() {
       assertTrue(map.isEmpty());
    }
 
    @Test
-   public void hasSizeZeroWhenCreated() {
+   void hasSizeZeroWhenCreated() {
       assertEquals(0, map.size());
    }
 
    @Test
-   public void containsFailsWhenHoldingNotFound() {
+   void containsFailsWhenHoldingNotFound() {
       assertFalse(map.contains(holding));
    }
 
    @Test
-   public void containsAddedHolding() {
+   void containsAddedHolding() {
       map.add(holding);
 
       assertTrue(map.contains(holding));
    }
 
    @Test
-   public void sizeIncrementedOnAddingHolding() {
+   void sizeIncrementedOnAddingHolding() {
       map.add(holding);
 
       assertEquals(1, map.size());
    }
 
    @Test
-   public void retrievesHoldingByBarcode() {
+   void retrievesHoldingByBarcode() {
       map.add(holding);
 
       var retrieved = map.get(holding.getBarcode());
@@ -57,7 +57,7 @@ public class HoldingMapTest {
    }
 
    @Test
-   public void returnsAllHoldings() {
+   void returnsAllHoldings() {
       map.add(new HoldingBuilder().withBarcode("a:1").create());
       map.add(new HoldingBuilder().withBarcode("b:1").create());
 
@@ -67,7 +67,7 @@ public class HoldingMapTest {
    }
 
    @Test
-   public void removeHolding() {
+   void removeHolding() {
       map.add(holding);
 
       map.remove(holding);
@@ -76,7 +76,7 @@ public class HoldingMapTest {
    }
 
    @Test
-   public void removeHoldingDecrementsSize() {
+   void removeHoldingDecrementsSize() {
       map.add(holding);
 
       map.remove(holding);
@@ -85,7 +85,7 @@ public class HoldingMapTest {
    }
 
    @Test
-   public void supportsIteration() {
+   void supportsIteration() {
       map.add(new HoldingBuilder().withBarcode("a:1").create());
       map.add(new HoldingBuilder().withBarcode("b:1").create());
 

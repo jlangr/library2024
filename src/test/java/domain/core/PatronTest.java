@@ -1,7 +1,7 @@
 package domain.core;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import testutil.EqualityTester;
 
 import java.util.List;
@@ -9,31 +9,31 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class PatronTest {
+class PatronTest {
    private Patron jane;
 
-   @Before
-   public void initialize() {
+   @BeforeEach
+   void initialize() {
       jane = new Patron("Jane");
    }
 
    @Test
-   public void defaultsIdToEmpty() {
+   void defaultsIdToEmpty() {
       assertEquals("", jane.getId());
    }
 
    @Test
-   public void fineBalanceIsZeroOnCreation() {
+   void fineBalanceIsZeroOnCreation() {
       assertEquals(0, jane.fineBalance());
    }
 
    @Test
-   public void holdingsAreEmptyOnCreation() {
+   void holdingsAreEmptyOnCreation() {
       assertTrue(jane.holdingMap().isEmpty());
    }
 
    @Test
-   public void returnsHoldingsAdded() {
+   void returnsHoldingsAdded() {
       var holding = new HoldingBuilder().create();
 
       jane.add(holding);
@@ -42,7 +42,7 @@ public class PatronTest {
    }
 
    @Test
-   public void removesHoldingFromPatron() {
+   void removesHoldingFromPatron() {
       var holding = new HoldingBuilder().create();
       jane.add(holding);
 
@@ -52,14 +52,14 @@ public class PatronTest {
    }
 
    @Test
-   public void storesFines() {
+   void storesFines() {
       jane.addFine(10);
 
       assertEquals(10, jane.fineBalance());
    }
 
    @Test
-   public void increasesBalanceOnAdditionalFines() {
+   void increasesBalanceOnAdditionalFines() {
       jane.addFine(10);
 
       jane.addFine(30);
@@ -68,7 +68,7 @@ public class PatronTest {
    }
 
    @Test
-   public void decreasesBalanceWhenPatronRemitsAmount() {
+   void decreasesBalanceWhenPatronRemitsAmount() {
       jane.addFine(40);
 
       jane.remit(25);
@@ -77,13 +77,13 @@ public class PatronTest {
    }
 
    @Test
-   public void supportsEqualityComparison() {
-      Patron patron1 = new Patron("p1", "Joe");
-      Patron patron1Copy1 = new Patron("p1", "");
-      Patron patron1Copy2 = new Patron("p1", "");
-      Patron patron1Subtype = new Patron("p1", "") {
+   void supportsEqualityComparison() {
+      var patron1 = new Patron("p1", "Joe");
+      var patron1Copy1 = new Patron("p1", "");
+      var patron1Copy2 = new Patron("p1", "");
+      var patron1Subtype = new Patron("p1", "") {
       };
-      Patron patron2 = new Patron("p2", "");
+      var patron2 = new Patron("p2", "");
 
       new EqualityTester(patron1, patron1Copy1, patron1Copy2, patron2, patron1Subtype).verify();
    }

@@ -6,6 +6,6 @@ import org.junit.runner.RunWith;
 @RunWith(WildcardPatternSuite.class)
 @SuiteClasses({"**/*Test.class"})
 @IncludeCategories(testutil.Slow.class)
-public class AllSlowTests {
+class AllSlowTests {
 
 }

@@ -1,7 +1,6 @@
 package domain.core;
 
 import com.loc.material.api.Material;
-import com.loc.material.api.MaterialType;
 
 public class HoldingBuilder {
     private String classification = "";

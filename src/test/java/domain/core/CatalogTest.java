@@ -1,7 +1,7 @@
 package domain.core;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import persistence.HoldingStore;
 
 import java.util.ArrayList;
@@ -10,34 +10,34 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class CatalogTest {
+class CatalogTest {
    private final Catalog catalog = new Catalog();
    private final HoldingBuilder holdingBuilder = new HoldingBuilder();
 
-   @Before
-   public void initialize() {
+   @BeforeEach
+   void initialize() {
       HoldingStore.deleteAll();
    }
 
    @Test
-   public void isEmptyOnCreation() {
+   void isEmptyOnCreation() {
       assertEquals(0, catalog.size());
    }
 
    @Test
-   public void incrementsSizeWhenMaterialAdded() {
+   void incrementsSizeWhenMaterialAdded() {
       catalog.add(holdingBuilder.create());
 
       assertEquals(1, catalog.size());
    }
 
    @Test
-   public void answersEmptyForNonexistentMaterial() {
+   void answersEmptyForNonexistentMaterial() {
       assertTrue(catalog.findAll("nonexistentid").isEmpty());
    }
 
    @Test
-   public void findAllReturnsListOfHoldings() {
+   void findAllReturnsListOfHoldings() {
       var classification = "123";
       var barcode = addHoldingWithClassification(classification);
       var barcode2 = addHoldingWithClassification(classification);
@@ -55,7 +55,7 @@ public class CatalogTest {
    }
 
    @Test
-   public void findAllReturnsOnlyHoldingsWithMatchingClassification() {
+   void findAllReturnsOnlyHoldingsWithMatchingClassification() {
       var barcode1 = addHoldingWithClassification("123");
       addHoldingWithClassification("456");
 
@@ -66,7 +66,7 @@ public class CatalogTest {
    }
 
    @Test
-   public void retrievesHoldingUsingBarcode() {
+   void retrievesHoldingUsingBarcode() {
       var holding = holdingBuilder.create();
       var barcode = catalog.add(holding);
 
@@ -76,7 +76,7 @@ public class CatalogTest {
    }
 
    @Test
-   public void incrementsCopyNumberWhenSameClassificationExists() {
+   void incrementsCopyNumberWhenSameClassificationExists() {
       var holding = holdingBuilder.create();
       catalog.add(holding);
       var barcode = catalog.add(holding);
@@ -87,7 +87,7 @@ public class CatalogTest {
    }
 
    @Test
-   public void supportsIteration() {
+   void supportsIteration() {
       var barcode1 = addHoldingWithClassification("1");
       var barcode2 = addHoldingWithClassification("2");
 

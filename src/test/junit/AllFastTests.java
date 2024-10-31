@@ -10,6 +10,6 @@ import testutil.MetaJunit;
 @ExcludeCategories({testutil.Slow.class, MetaJunit.class})
 
 @Category(MetaJunit.class)
-public class AllFastTests {
+class AllFastTests {
 
 }
