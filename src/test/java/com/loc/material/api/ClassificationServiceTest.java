@@ -1,46 +1,46 @@
 package com.loc.material.api;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
 import static org.mockito.ArgumentMatchers.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import testutil.Slow;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static util.StringUtils.removeHyphens;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ClassificationServiceTest {
-   private static final String THE_ROAD_AUTHOR = "Cormac McCarthy";
-   private static final String THE_ROAD_ISBN = "0-307-26543-9";
-   private static final String THE_ROAD_TITLE = "The Road";
-   private static final String THE_ROAD_YEAR = "2006";
-   private static final String THE_ROAD_CLASSIFICATION = "PS3563.C337 R63 2006";
+@ExtendWith(MockitoExtension.class)
+class ClassificationServiceTest {
+   static final String THE_ROAD_AUTHOR = "Cormac McCarthy";
+   static final String THE_ROAD_ISBN = "0-307-26543-9";
+   static final String THE_ROAD_TITLE = "The Road";
+   static final String THE_ROAD_YEAR = "2006";
+   static final String THE_ROAD_CLASSIFICATION = "PS3563.C337 R63 2006";
 
    @Mock
-   private IsbnClient isbnClient;
+   IsbnClient isbnClient;
 
-   private ClassificationService service;
+   ClassificationService service;
 
-   @Before
-   public void setup() {
+   @BeforeEach
+   void setup() {
       service = new ClassificationService(isbnClient);
    }
 
    @Test
-   public void retrieveReturnsNullWhenNotFound() {
+   void retrieveReturnsNullWhenNotFound() {
 //        when(restTemplate.getForObject(contains(THE_ROAD_ISBN), eq(Map.class))).thenReturn(responseMap);
    }
 
    @Test
-   public void retrieveMaterialPopulatesFromResponse() {
+   void retrieveMaterialPopulatesFromResponse() {
       var responseMap = Map.of(
          "title", THE_ROAD_TITLE,
          "publish_date", THE_ROAD_YEAR,
@@ -55,18 +55,17 @@ public class ClassificationServiceTest {
       assertMaterialDetailsForTheRoad(material);
    }
 
-   @Category(Slow.class)
+   // TODO   @Category(Slow.class)
    @Test
-   public void liveRetrieve() {
+   void liveRetrieve() {
       var liveService = new ClassificationService(isbnClient);
 
       var material = liveService.retrieveMaterial(THE_ROAD_ISBN);
 
-      System.out.println("author: " + material.getAuthor());
       assertMaterialDetailsForTheRoad(material);
    }
 
-   private void assertMaterialDetailsForTheRoad(Material material) {
+   void assertMaterialDetailsForTheRoad(Material material) {
       assertEquals(THE_ROAD_TITLE, material.getTitle());
       assertEquals(THE_ROAD_YEAR, material.getYear());
 //      assertEquals(THE_ROAD_AUTHOR, material.getAuthor());
