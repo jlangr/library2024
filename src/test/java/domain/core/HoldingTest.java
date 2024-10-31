@@ -10,8 +10,8 @@ import util.DateUtil;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static domain.core.Branch.CHECKED_OUT;
+import static org.junit.jupiter.api.Assertions.*;
 
 /*
 This test class is a mess. Some of the opportunities for cleanup:
@@ -46,60 +46,60 @@ class HoldingTest {
    @Test
    void branchDefaultsToCheckedOutWhenCreated() {
       var holding = new Holding(THE_TRIAL);
-      assertEquals(holding, not(nullValue()));
-      assertEquals(holding.getBranch(), equalTo(Branch.CHECKED_OUT));
+      assertNotNull(holding);
+      assertEquals(CHECKED_OUT, holding.getBranch());
    }
 
    @Test
    void copyNumberDefaultsTo1WhenCreated() {
       var holding = new Holding(THE_TRIAL, eastBranch);
-      assertEquals(holding.getCopyNumber(), equalTo(1));
+      assertEquals(1, holding.getCopyNumber());
    }
 
    @Test
    void changesBranchOnTransfer() {
       h.transfer(westBranch);
-      assertEquals(h.getBranch(), equalTo(westBranch));
+      assertEquals(westBranch, h.getBranch());
    }
 
    @Test
    void ck() {
       h.checkOut(TODAY);
-      assertEquals(h.dateCheckedOut(), equalTo(TODAY));
+      assertEquals(TODAY, h.dateCheckedOut());
       assertTrue(h.dateDue().after(TODAY));
-      assertEquals(h.getBranch(), equalTo(Branch.CHECKED_OUT));
+      assertEquals(CHECKED_OUT, h.getBranch());
       assertFalse(h.isAvailable());
 
       h.checkOut(TODAY);
       Date tomorrow = new Date(TODAY.getTime() + 60L + 60 * 1000 * 24);
       h.checkIn(tomorrow, eastBranch);
-      assertEquals(h.dateLastCheckedIn(), equalTo(tomorrow));
+      assertEquals(tomorrow, h.dateLastCheckedIn());
       assertTrue(h.isAvailable());
-      assertEquals(h.getBranch(), equalTo(eastBranch));
+      assertEquals(eastBranch, h.getBranch());
    }
 
    @Test
    void returnDateForStandardBook() {
       h.checkOut(TODAY);
-      Date dateDue = h.dateDue();
+      var dateDue = h.dateDue();
       assertDateEquals(addDays(TODAY, MaterialType.BOOK.getCheckoutPeriod()), dateDue);
    }
 
    @Test
    void dateDueNullWhenCheckedOutIsNull() {
-      assertEquals(h.dateDue(), equalTo(null));
+      assertNull(h.dateDue());
    }
 
    @Test
    void daysLateIsZeroWhenDateDueIsNull() {
-      assertEquals(h.daysLate(), equalTo(0));
+      assertEquals(0, h.daysLate());
    }
 
    @Test
    void testSomething() {
       // movie
       checkOutToday(DR_STRANGELOVE, eastBranch);
-      Date expected = addDays(TODAY, MaterialType.DVD.getCheckoutPeriod());
+      var expected = addDays(TODAY, MaterialType.DVD.getCheckoutPeriod());
       assertDateEquals(addDays(TODAY, MaterialType.DVD.getCheckoutPeriod()), h.dateDue());
 
       // childrens movie
@@ -111,15 +111,15 @@ class HoldingTest {
    @Test
    void answersDaysLateOfZeroWhenReturnedSameDay() {
       checkOutToday(THE_TRIAL, eastBranch);
-      int daysLate = h.checkIn(TODAY, eastBranch);
-      assertEquals(daysLate, equalTo(0));
+      var daysLate = h.checkIn(TODAY, eastBranch);
+      assertEquals(0, daysLate);
    }
 
    @Test
    void answersDaysLateOfZeroWhenReturnedOnDateDue() {
       checkOutToday(THE_TRIAL, eastBranch);
-      int daysLate = h.checkIn(h.dateDue(), eastBranch);
-      assertEquals(daysLate, equalTo(0));
+      var daysLate = h.checkIn(h.dateDue(), eastBranch);
+      assertEquals(0, daysLate);
    }
 
    @Test
@@ -127,8 +127,8 @@ class HoldingTest {
       try {
          checkOutToday(THE_TRIAL, eastBranch);
          var date = DateUtil.addDays(h.dateDue(), 3);
-         int days = h.checkIn(date, eastBranch);
-         assertEquals(days, equalTo(3));
+         var days = h.checkIn(date, eastBranch);
+         assertEquals(3, days);
       } catch (RuntimeException notReallyExpected) {
          fail();
       }
@@ -166,7 +166,7 @@ class HoldingTest {
    void equality() {
       var holding1 = new Holding(THE_TRIAL, eastBranch, 1);
       var holding1Copy1 = new Holding(THE_TRIAL, westBranch, 1); // diff loc but same copy
-      var holding1Copy2 = new Holding(THE_TRIAL, Branch.CHECKED_OUT, 1);
+      var holding1Copy2 = new Holding(THE_TRIAL, CHECKED_OUT, 1);
       var holding2 = new Holding(THE_TRIAL, eastBranch, 2); // 2nd copy
       var holding1Subtype = new Holding(THE_TRIAL, eastBranch,
          1) {

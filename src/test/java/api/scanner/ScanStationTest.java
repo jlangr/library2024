@@ -4,7 +4,6 @@ import domain.core.Branch;
 import domain.core.Patron;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -18,7 +17,7 @@ class ScanStationTest extends MockedScannerSubsystemFields {
 
    @Test
    void initializesToWaitingState() {
-      assertEquals(ScanStationStateWaiting.class, scanner.getCurrentState());
+      assertEquals(ScanStationStateWaiting.class, scanner.getCurrentState().getClass());
    }
 
    @Test

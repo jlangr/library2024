@@ -5,9 +5,7 @@ import domain.core.HoldingBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static testutil.CollectionsUtil.soleElement;
 
 class HoldingStoreTest {
@@ -51,6 +49,6 @@ class HoldingStoreTest {
 
    @Test
    void findBarCodeNotFound() {
-      assertEquals(store.findByBarcode("nonexistent barcode:1"), nullValue());
+      assertNull(store.findByBarcode("nonexistent barcode:1"));
    }
 }
