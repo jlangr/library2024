@@ -8,13 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import testutil.Slow;
 
-import java.util.List;
-import java.util.Map;
-
-import static com.loc.material.api.ClassificationUtils.isbn10;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.contains;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClassificationServiceTest {

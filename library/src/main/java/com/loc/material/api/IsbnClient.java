@@ -1,5 +1,7 @@
 package com.loc.material.api;
 
+import util.StringUtils;
+
 import java.util.Map;
 
 public class IsbnClient {
@@ -21,7 +23,7 @@ public class IsbnClient {
    }
 
    private String findByDoc(String isbn) {
-      return "/isbn/" + ClassificationUtils.isbn10(isbn) + ".json";
+      return "/isbn/" + StringUtils.removeHyphens(isbn) + ".json";
    }
 
    String isbnKey(String sourceId) {

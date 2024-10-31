@@ -6,9 +6,7 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static util.matchers.LessThan.lessThan;
+import static org.junit.Assert.*;
 
 public class TimestampSourceTest {
     static final Date NEW_YEARS_DAY = DateUtil.create(2011, Calendar.JANUARY, 1);
@@ -22,40 +20,40 @@ public class TimestampSourceTest {
     public void retrievesSinglePushedTime() {
         TimestampSource.queueNextTime(NEW_YEARS_DAY);
 
-        assertThat(TimestampSource.now(), equalTo(NEW_YEARS_DAY));
+        assertEquals(NEW_YEARS_DAY, TimestampSource.now());
     }
 
     @Test
     public void retrievesMultiplePushedTimes() {
-        Date groundhogDay = DateUtil.create(2011, Calendar.FEBRUARY, 2);
+        var groundhogDay = DateUtil.create(2011, Calendar.FEBRUARY, 2);
         TimestampSource.queueNextTime(NEW_YEARS_DAY);
         TimestampSource.queueNextTime(groundhogDay);
 
-        assertThat(TimestampSource.now(), equalTo(NEW_YEARS_DAY));
-        assertThat(TimestampSource.now(), equalTo(groundhogDay));
+        assertEquals(NEW_YEARS_DAY, TimestampSource.now());
+        assertEquals(groundhogDay, TimestampSource.now());
     }
 
     @Test
     public void isNotExhaustedWhenTimeQueued() {
         TimestampSource.queueNextTime(NEW_YEARS_DAY);
-        assertThat(TimestampSource.isExhausted(), equalTo(false));
+        assertFalse(TimestampSource.isExhausted());
     }
 
     @Test
     public void isExhaustedWhenNoTimeQueued() {
-        assertThat(TimestampSource.isExhausted(), equalTo(true));
+        assertTrue(TimestampSource.isExhausted());
         TimestampSource.queueNextTime(NEW_YEARS_DAY);
         TimestampSource.now();
-        assertThat(TimestampSource.isExhausted(), equalTo(true));
+        assertTrue(TimestampSource.isExhausted());
     }
 
     @Test
     public void returnsCurrentTimeWhenQueueExhausted() {
         TimestampSource.queueNextTime(NEW_YEARS_DAY);
 
-        Date now = new Date();
+        var now = new Date();
         TimestampSource.now();
-        Date retrievedNow = TimestampSource.now();
-        assertThat(retrievedNow.getTime() - now.getTime(), lessThan(100));
+        var retrievedNow = TimestampSource.now();
+        assertTrue(retrievedNow.getTime() - now.getTime() < 100);
     }
 }
