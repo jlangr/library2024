@@ -32,9 +32,6 @@ dependencies {
     }
     implementation('org.springframework.boot:spring-boot-starter-jetty')
     implementation('org.springframework.boot:spring-boot-starter-actuator')
-
-    // TODO: temporary
-    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.10.0'
 }
 
 test {

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class HoldingMapTest {
    private HoldingMap map;
@@ -90,8 +90,8 @@ class HoldingMapTest {
       map.add(new HoldingBuilder().withBarcode("b:1").create());
 
       var barcodes = new ArrayList<String>();
-      for (var holding : map)
-         barcodes.add(holding.getBarcode());
+      for (var eachHolding : map)
+         barcodes.add(eachHolding.getBarcode());
 
       assertEquals(List.of("a:1", "b:1"), barcodes.stream().sorted().toList());
    }

@@ -1,13 +1,12 @@
 package util;
 
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TimestampSourceTest {
    static final Date NEW_YEARS_DAY = DateUtil.create(2011, Calendar.JANUARY, 1);

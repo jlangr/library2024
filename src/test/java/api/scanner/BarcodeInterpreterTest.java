@@ -3,7 +3,7 @@ package api.scanner;
 import org.junit.jupiter.api.Test;
 
 import static api.scanner.BarcodeType.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BarcodeInterpreterTest {
    @Test

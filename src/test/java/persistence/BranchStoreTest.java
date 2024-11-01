@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BranchStoreTest {
    private BranchStore store;
@@ -65,7 +64,7 @@ class BranchStoreTest {
 
       var retrieved = store.findByName("name");
 
-      assertNotSame(branch, sameInstance(retrieved));
+      assertNotSame(retrieved, branch);
    }
 
    @Test

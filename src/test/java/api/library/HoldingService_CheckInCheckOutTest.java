@@ -13,17 +13,18 @@ import util.DateUtil;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class HoldingService_CheckInCheckOutTest {
-   private final HoldingService service = new HoldingService();
-   private final PatronService patronService = new PatronService();
-   private final ClassificationApi classificationApi = mock(ClassificationApi.class);
-   private String patronId;
-   private String branchScanCode;
-   private String bookHoldingBarcode;
+   static final Date TODAY = new Date();
+   final HoldingService service = new HoldingService();
+   final PatronService patronService = new PatronService();
+   final ClassificationApi classificationApi = mock(ClassificationApi.class);
+   String patronId;
+   String branchScanCode;
+   String bookHoldingBarcode;
 
    @BeforeEach
    void initialize() {
@@ -50,15 +51,15 @@ class HoldingService_CheckInCheckOutTest {
    @Test
    void checkoutThrowsWhenHoldingIdNotFound() {
       assertThrows(HoldingNotFoundException.class, () ->
-         service.checkOut(patronId, "999:1", new Date()));
+         service.checkOut(patronId, "999:1", TODAY));
    }
 
    @Test
    void checkoutThrowsWhenUnavailable() {
-      service.checkOut(patronId, bookHoldingBarcode, new Date());
+      service.checkOut(patronId, bookHoldingBarcode, TODAY);
 
       assertThrows(HoldingAlreadyCheckedOutException.class, () ->
-         service.checkOut(patronId, bookHoldingBarcode, new Date()));
+         service.checkOut(patronId, bookHoldingBarcode, TODAY));
    }
 
    @Test
