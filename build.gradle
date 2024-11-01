@@ -35,16 +35,5 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()  // This tells Gradle to use the JUnit Platform for running tests
-
-    // Optionally, include/exclude specific tests or patterns if needed
-    // include '**/*Test.class'
-    // exclude '**/SomeOldTest.class'
+    useJUnitPlatform()
 }
-
-//sourceSets {
-//    test {
-//        resources { srcDirs = ['src/resources'] }
-//        java { srcDirs = ['src/test/java'] }
-//    }
-//}
