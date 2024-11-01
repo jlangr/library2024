@@ -40,7 +40,7 @@ public class Holding {
    }
 
    public String getBarcode() {
-      return HoldingBarcode.createCode(material.getClassification(), copyNumber);
+      return new HoldingBarcode(material.getClassification(), copyNumber).barcode();
    }
 
    public void setCopyNumber(int copyNumber) {

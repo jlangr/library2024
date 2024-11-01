@@ -1,6 +1,12 @@
 package domain.core;
 
+import static java.lang.String.format;
+
 public record HoldingBarcode(String barcode) {
+   public HoldingBarcode(String classification, int copyNumber) {
+      this(format("%s:%s", classification, copyNumber));
+   }
+
    public static final String BARCODE_SEPARATOR = ":";
 
    public String getClassification() {
@@ -17,10 +23,5 @@ public record HoldingBarcode(String barcode) {
       if (barcodeParts.length != 2)
          throw new IllegalArgumentException();
       return barcodeParts;
-   }
-
-   // TODO
-   public static String createCode(String classification, int copyNumber) {
-      return classification + BARCODE_SEPARATOR + copyNumber;
    }
 }
