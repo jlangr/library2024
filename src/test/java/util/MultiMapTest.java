@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MultiMapTest {
    private MultiMap<String, String> map;
@@ -69,11 +70,11 @@ class MultiMapTest {
 
       assertEquals(List.of("beta"), values);
    }
-// TODO
-//   @Test(expected = NullPointerException.class)
-//   void throwsOnPutOfNullKey() {
-//      map.put(null, "");
-//   }
+
+   @Test
+   void throwsOnPutOfNullKey() {
+      assertThrows(NullPointerException.class, () -> map.put(null, ""));
+   }
 
    @Test
    void clearEliminatesAllData() {

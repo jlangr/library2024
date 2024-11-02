@@ -27,7 +27,7 @@ public class HoldingMap implements Iterable<Holding> {
    }
 
    public List<Holding> holdings() {
-      return new ArrayList(holdings.values());
+      return new ArrayList<>(holdings.values());
    }
 
    public void remove(Holding holding) {

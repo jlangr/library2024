@@ -14,10 +14,6 @@ public class Http {
       template = RestUtil.createRestTemplate();
    }
 
-   public Http(RestTemplate restTemplate) {
-      template = restTemplate;
-   }
-
    @SuppressWarnings("unchecked")
    public Map<String, Object> retrieveJson(String url) {
       try {

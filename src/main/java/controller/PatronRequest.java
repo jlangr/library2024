@@ -7,9 +7,6 @@ public class PatronRequest {
     private String id;
     private int fineBalance;
 
-    public PatronRequest() {
-    }
-
     public PatronRequest(Patron patron) {
         this.id = patron.getId();
         this.name = patron.getName();
@@ -22,22 +19,6 @@ public class PatronRequest {
 
     public String getName() {
         return name;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setFineBalance(Integer fineBalance) {
-        this.fineBalance = fineBalance;
-    }
-
-    public int getFineBalance() {
-        return fineBalance;
     }
 
     @Override

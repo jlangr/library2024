@@ -1,7 +1,6 @@
 package testutil;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EqualityTester {
    private final Object object1;
@@ -20,9 +19,9 @@ public class EqualityTester {
    }
 
    public void verify() {
-      assertTrue(object1.equals(object1Copy1));
-      assertFalse(object1.equals(object2));
-      assertFalse(object1.equals(object1Subtype));
+      assertEquals(object1, object1Copy1);
+      assertNotEquals(object1, object2);
+      assertNotEquals(object1, object1Subtype);
 
       assertNullComparison();
       assertConsistency();
@@ -32,25 +31,25 @@ public class EqualityTester {
    }
 
    private void assertNullComparison() {
-      assertFalse(object1.equals(null));
+      assertNotNull(object1);
    }
 
    private void assertConsistency() {
-      assertTrue(object1.equals(object1Copy1));
-      assertFalse(object1.equals(object2));
+      assertEquals(object1, object1Copy1);
+      assertNotEquals(object1, object2);
    }
 
    private void assertTransitivity() {
-      assertTrue(object1Copy1.equals(object1Copy2));
-      assertTrue(object1.equals(object1Copy2));
+      assertEquals(object1Copy1, object1Copy2);
+      assertEquals(object1, object1Copy2);
    }
 
    private void assertSymmetry() {
-      assertTrue(object1.equals(object1Copy1));
-      assertTrue(object1Copy1.equals(object1));
+      assertEquals(object1, object1Copy1);
+      assertEquals(object1Copy1, object1);
    }
 
    private void assertReflexivity() {
-      assertTrue(object1.equals(object1));
+      assertEquals(object1, object1);
    }
 }
