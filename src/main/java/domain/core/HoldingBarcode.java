@@ -7,8 +7,6 @@ public record HoldingBarcode(String barcode) {
       this(format("%s:%s", classification, copyNumber));
    }
 
-   public static final String BARCODE_SEPARATOR = ":";
-
    public String getClassification() {
       return splitOnColon(barcode)[0];
    }

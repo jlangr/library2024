@@ -5,7 +5,7 @@ import com.loc.material.api.Material;
 public class HoldingBuilder {
    private String classification = "";
    private int copyNumber = 1;
-   private Branch branch = Branch.CHECKED_OUT;
+   private final Branch branch = Branch.CHECKED_OUT;
 
    public HoldingBuilder withClassification(String classification) {
       this.classification = classification;

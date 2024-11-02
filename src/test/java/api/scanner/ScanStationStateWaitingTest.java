@@ -4,7 +4,6 @@ import domain.core.Branch;
 import org.junit.jupiter.api.Test;
 
 import static api.scanner.ScanStationStateWaiting.MSG_SCAN_BRANCH_ID_FIRST;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 

@@ -14,7 +14,7 @@ public abstract class ScanStationStateTestBase extends MockedScannerSubsystemFie
       scanner.setCurrentState(state);
    }
 
-   abstract protected ScanStationState createStateObject();
+   protected abstract ScanStationState createStateObject();
 
    protected void assertMessageDisplayed(String text) {
       verify(display).showMessage(text);

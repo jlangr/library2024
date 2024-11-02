@@ -5,7 +5,6 @@ import domain.core.Patron;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.DateUtil;
-import util.DateUtilTest;
 import util.TimestampSource;
 
 import static api.scanner.ScanStationStateCheckout.*;

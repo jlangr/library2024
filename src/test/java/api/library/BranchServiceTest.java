@@ -18,6 +18,14 @@ class BranchServiceTest {
    }
 
    @Test
+   void returnsScanCodeOnAdd() {
+      var scanCode = service.add("abc");
+
+      var branch = service.find(scanCode);
+      assertEquals(branch.getScanCode(), scanCode);
+   }
+
+   @Test
    void findsByScanCode() {
       service.add("name", "b2");
 

@@ -7,16 +7,12 @@ import util.DateUtil;
 import util.TimestampSource;
 
 import java.util.Calendar;
-import java.util.Date;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class ScanStationStateReturnsTest extends ScanStationStateTestBase {
-   public static final String PATRON_JANE_ID = "p222";
-
    @Override
    protected ScanStationState createStateObject() {
       return new ScanStationStateReturns(scanner);

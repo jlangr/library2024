@@ -3,7 +3,6 @@ package domain.core;
 import org.junit.jupiter.api.Test;
 import testutil.EqualityTester;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BranchTest {

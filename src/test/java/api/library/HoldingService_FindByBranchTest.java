@@ -3,15 +3,12 @@ package api.library;
 import com.loc.material.api.ClassificationApi;
 import com.loc.material.api.Material;
 import domain.core.ClassificationApiFactory;
-import domain.core.Holding;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
