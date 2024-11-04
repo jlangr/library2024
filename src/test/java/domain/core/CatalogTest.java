@@ -62,7 +62,7 @@ class CatalogTest {
       var retrieved = catalog.findAll("123");
 
       assertEquals(1, retrieved.size());
-      assertEquals(barcode1, retrieved.get(0).getBarcode());
+      assertEquals(barcode1, retrieved.getFirst().getBarcode());
    }
 
    @Test

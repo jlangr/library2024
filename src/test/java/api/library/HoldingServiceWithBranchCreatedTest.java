@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class HoldingService_WithBranchCreatedTest {
+class HoldingServiceWithBranchCreatedTest {
    final HoldingService service = new HoldingService();
    final ClassificationApi classificationApi = mock(ClassificationApi.class);
    String branchScanCode;

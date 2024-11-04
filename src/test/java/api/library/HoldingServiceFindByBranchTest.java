@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class HoldingService_FindByBranchTest {
+class HoldingServiceFindByBranchTest {
    final HoldingService service = new HoldingService();
    final ClassificationApi classificationApi = mock(ClassificationApi.class);
    final BranchService branchService = new BranchService();
@@ -24,9 +24,9 @@ class HoldingService_FindByBranchTest {
       ClassificationApiFactory.setService(classificationApi);
    }
 
-   String addHolding(String sourceId, String branchScanCode) {
+   void addHolding(String sourceId, String branchScanCode) {
       when(classificationApi.retrieveMaterial(sourceId)).thenReturn(new Material(sourceId, "", "", "", ""));
-      return service.add(sourceId, branchScanCode);
+      service.add(sourceId, branchScanCode);
    }
 
    @Test

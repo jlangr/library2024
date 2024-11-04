@@ -44,7 +44,7 @@ public class ClassificationService implements ClassificationApi {
 
    private String getLibraryOfCongressClassification(Map<String, Object> response) {
       var classifications = getList(response, "lc_classifications");
-      return classifications.get(0);
+      return classifications.getFirst();
    }
 
    @SuppressWarnings("unchecked")

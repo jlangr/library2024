@@ -24,10 +24,11 @@ class PatronServiceTest {
 
    @Test
    void allowsAddingPatronWithId() {
-      service.add("p123", "xyz");
+      var id = service.add("p123", "xyz");
 
       var patron = service.find("p123");
 
+      assertEquals("p123", patron.getId());
       assertEquals("xyz", patron.getName());
    }
 

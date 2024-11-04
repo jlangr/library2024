@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class HoldingService_CheckInCheckOutTest {
+class HoldingServiceCheckInCheckOutTest {
    static final Date TODAY = new Date();
    final HoldingService service = new HoldingService();
    final PatronService patronService = new PatronService();

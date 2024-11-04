@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static api.scanner.ScanStationStateInventory.MSG_COMPLETE_INVENTORY_FIRST;
 import static api.scanner.ScanStationStateInventory.MSG_SCANNED_HOLDING;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -62,6 +61,6 @@ class ScanStationStateInventoryTest extends ScanStationStateTestBase {
    void changesStateToReturnsWhenCompletePressed() {
       state.pressComplete();
 
-      assertTrue(scanner.getCurrentState() instanceof ScanStationStateReturns);
+      assertInstanceOf(ScanStationStateReturns.class, scanner.getCurrentState());
    }
 }

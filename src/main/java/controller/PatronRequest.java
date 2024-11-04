@@ -4,8 +4,8 @@ import domain.core.Patron;
 
 public class PatronRequest {
     private String name;
-    private String id;
-    private int fineBalance;
+    private final String id;
+    private final int fineBalance;
 
     public PatronRequest(Patron patron) {
         this.id = patron.getId();
