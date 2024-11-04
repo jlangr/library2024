@@ -50,6 +50,6 @@ public class EqualityTester {
    }
 
    private void assertReflexivity() {
-      assertEquals(object1, object2);
+      assertEquals(object1, object1);
    }
 }
