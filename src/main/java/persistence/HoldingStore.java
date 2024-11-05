@@ -16,6 +16,10 @@ public class HoldingStore implements Iterable<Holding> {
         holdings.clear();
     }
 
+    public static boolean isEmpty() {
+        return holdings.isEmpty();
+    }
+
     public void save(Holding holding) {
         holdings.put(holding.getMaterial().getClassification(), copy(holding));
     }

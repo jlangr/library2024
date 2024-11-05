@@ -15,6 +15,10 @@ public class BranchStore {
         return ++idIndex;
     }
 
+    public static boolean isEmpty() {
+        return branches.isEmpty();
+    }
+
     public void save(Branch branch) {
         if (branch.getScanCode().isEmpty())
             branch.setScanCode("b" + incrementIdIndex());

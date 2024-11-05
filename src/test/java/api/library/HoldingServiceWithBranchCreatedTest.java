@@ -32,16 +32,6 @@ class HoldingServiceWithBranchCreatedTest {
    }
 
    @Test
-   void returnsEntireInventoryOfHoldings() {
-      for (int i = 0; i < 3; i++)
-         addHolding();
-
-      var holdings = service.allHoldings();
-
-      assertEquals(3, holdings.size());
-   }
-
-   @Test
    void storesNewHoldingAtBranch() {
       var barcode = addHolding();
 

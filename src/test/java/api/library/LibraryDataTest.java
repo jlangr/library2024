@@ -7,6 +7,9 @@ import domain.core.ClassificationApiFactory;
 import domain.core.Patron;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import persistence.HoldingStore;
+import persistence.PatronStore;
+import persistence.BranchStore;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -25,7 +28,7 @@ class LibraryDataTest {
    }
 
    @Test
-   void deleteAllRemovesAllPatrons() {
+   void deleteAllRemovesAllData() {
       patronService.patronAccess.add(new Patron("", "1"));
       branchService.add("2");
       var material = new Material("3", "", "", "", "");
@@ -34,8 +37,8 @@ class LibraryDataTest {
 
       LibraryData.deleteAll();
 
-      assertTrue(patronService.allPatrons().isEmpty());
-      assertTrue(holdingService.allHoldings().isEmpty());
-      assertTrue(branchService.allBranches().isEmpty());
+      assertTrue(PatronStore.isEmpty());
+      assertTrue(HoldingStore.isEmpty());
+      assertTrue(BranchStore.isEmpty());
    }
 }

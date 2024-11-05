@@ -14,6 +14,10 @@ public class PatronStore {
         patrons.clear();
     }
 
+    public static boolean isEmpty() {
+        return patrons.isEmpty();
+    }
+
     private static int incrementIdIndex() {
        return ++idIndex;
     }
