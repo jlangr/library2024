@@ -27,6 +27,10 @@ public class Holding {
       this.copyNumber = copyNumber;
    }
 
+   public boolean isLate() {
+      return dateLastCheckedIn().after(dateDue());
+   }
+
    public Material getMaterial() {
       return material;
    }

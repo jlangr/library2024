@@ -88,15 +88,11 @@ public class HoldingService {
       removeBookFromPatron(foundPatron, holding);
       // ...
 
-      if (isLate(holding)) { // is it late?
+      if (holding.isLate()) {
          foundPatron.addFine(calculateLateFine(holding));
          return holding.daysLate();
       }
       return 0;
-   }
-
-   private boolean isLate(Holding holding) {
-      return holding.dateLastCheckedIn().after(holding.dateDue());
    }
 
    private int calculateLateFine(Holding holding) {
