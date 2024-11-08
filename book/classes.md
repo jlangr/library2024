@@ -103,14 +103,19 @@ Date dateDue(String barCode)
 void checkOut(String patronId, String barCode, Date date)
 int checkIn(String barCode, Date date, String branchScanCode)
 ```
+Let's depict that HoldingService interface as a picture (because we'll be looking at more pictures later), using UML (Unified Modeling Language) diagramming guidelines:
 
-The core responsibility of the HoldingService, then, is to primarily manage the disposition of books--to allow them to be added to the system, checked out, checked in, and transferred from one library location (a *branch*) to another. The HoldingService also provides a few queries, including the ability to find a holding given an identifying bar code, whether or not it's available for a patron to borrow ("check out"), and to determine when the material must be returned.
+![HoldingService](./images/holdingservice.png "HoldingService")
 
-Given the public method signatures, in one sense the HoldingService has but a single responsibility: To manage the disposition of holdings. Each of the public signatures above suggests one aspect of that management responsibility--a behavior.
+The method parameters aren't usually interesting when we start looking at class level design. We've omitted them here and later, unless they're interesting or necessary.
 
-The Single Responsibility Principle (SRP) tells us to be a bit more picky: An SRP-compliant class should have only one reason to change.
+Our picture shows that the HoldingService allows holdings to be added to the system, to be checked out or checked in, and transferred from one library location (*branch*) to another. The HoldingService also supports a few queries, including the ability to retrieve holding details, to answer whether it's available for a patron to borrow ("check out"), and to determine when the material must be returned.
 
-Each of the behaviors adheres to some *policy*--a set of rules established by the library system and implemented in the code. The `dateDue` behavior, for example, indicates that books are due 21 days after they are checked out and that DVDs are due 7 days after checkout. The `checkIn` behavior similarly implements a policy: when a book is returned ("checked in"), books are marked as available, and patrons are assessed a fine if the book is returned after its due date. The fine amount varies depending on the material type and other possible factors.
+The picture suggests that the core (single?) responsibility of the HoldingService is to manage the disposition of holdings. Each of the behaviors depicted directly support that interest.
+
+The Single Responsibility Principle (SRP) tells us to be a bit more picky, however: An SRP-compliant class should have only one reason to change.
+
+Each of the behaviors adheres to some *policy*--a set of rules established by the library system and implemented in the code. The `dateDue` behavior, for example, specifies that books are due 21 days after they are checked out and that DVDs are due 7 days after checkout. The `checkIn` behavior similarly implements a policy: when a book is returned ("checked in"), books are marked as available, and patrons are assessed a fine if the book is returned after its due date. The fine amount varies depending on the material type and other possible factors.
 
 It's easy to think of multiple reasons for the as-defined HoldingService to potentially change. For example, DVDs are now rentable for 14 days instead of 7 (because they're an older technology and in low demand nowadays). But is that a problem for HoldingService as currently implemented? Here's the `dateDue` method:
 
@@ -198,9 +203,9 @@ private boolean isLate(Holding holding) {
 }
 ```
 
-The silly line-level comments that describe the current statement ("is it late") should never be necessary once we extract a method in this manner. Often, the comment provides the basis for the method name; `isLate` works just fine here.
+The silly line-level comment "is it late" has disappeared&mdash;the code now directly states the same thing. When extracting methods in this manner, similar such guiding comments can disappear. The comment often provides the basis for the method name, like it does here.
 
-Once isolated, the `isLate` method clearly demonstrates a code smell known as *feature envy*: The method, apparently envious of the `Holding` class, asks it multiple questions ("What's the date checked in? What's the date due?") in order to compute a result. It asks no questions of the containing class HoldingService. We can soothe the code's envy by moving the method to the Holding class, where it can talk directly to its new peers:
+Once isolated, the `isLate` method clearly demonstrates a code smell known as *feature envy*: The method, apparently envious of the `Holding` class, asks it multiple questions ("What's the date checked in? What's the date due?") in order to compute a result. It also shows disinterest in the HoldingService class on which it's defined. We can soothe the method's envy by moving it to the Holding class, where it can talk directly to its new peers:
 
 ```
 public class HoldingService {
@@ -215,12 +220,12 @@ public class HoldingService {
    }
 }
 
- public class Holding {
-    // ...
-    public boolean isLate() {
-       return dateLastCheckedIn().after(dateDue());
-    }
- }
+public class Holding {
+   // ...
+   public boolean isLate() {
+      return dateLastCheckedIn().after(dateDue());
+   }
+}
 ```
 
 The calling code declares only policy and exposes no implementation details:
@@ -235,7 +240,7 @@ We can clean things up further, if needed, once we've moved the `checkIn` method
 
 The `checkIn` method isn't perfect yet. But replacing unnecessary detail with abstractions in this manner allows us to more easily consider improving the remainder of its code. And toward our primary interest of SRP compliant classes, we've removed one reason to change from HoldingService.
 
-Many services  orchestrate numerous disparate behaviors. They must interact with business logic regarding various domains (holdings, patrons, branches), they might persist or retrieve data, and they might interact with external services. The HoldingServiceClass is one example of an orchestrating class.
+Many service classes must orchestrate numerous disparate behaviors. They must interact with business logic regarding various domains (holdings, patrons, branches), they might persist or retrieve data, and they might interact with external services. The HoldingServiceClass is one example of an orchestrating class.
 
 Some smaller services, such as a collection of behaviors concerned with date calculations, might have minimal orchestration needs.
 
@@ -250,13 +255,50 @@ In other words, don't mix policy with implementation detail. It's not SRP compli
 
 We split method and class considerations into two chapters within Clean Code. The reality is that neither can be addressed in isolation. Your system's design is a careful balance of method and class (or function and module) implementation.
 
-We can choose to follow the guidance of SOLID, code smells, emergent design rules, or any other recognized design perspective. If we follow them appropriately, the outcome is a system with smaller, more *cohesive* [[ where do we define ]] classes and methods. As a result, our system is easier to understand, navigate, and maintain. 
+We can choose to follow the guidance of SOLID, code smells, emergent design rules, or any other recognized design perspective. If we follow them appropriately, the outcome is a system with smaller, more *cohesive* [ where do we define ] classes and methods. As a result, our system is easier to understand, navigate, and maintain&mdash;at least in one dimension. We'll talk about tradeoffs later. [forward ref] 
 
--- aligns with tell don't ask
 
+# Cruft (ignore me for now)
 
 (Never mind that measuring some of these characteristics might be near impossible. How, for example, do you compare the size of one feature to another?)  [[ maybe reference Capers Jones, "Programming Productivity"? or something from Brooks, "no silver bullet"? ]])
 
+```
+[HoldingController]->[HoldingService]
+
+[HoldingService]->[BranchService]
+[HoldingService]->[PatronService]
+[HoldingService]->[Holding]
+[HoldingService]->[Patron]
+[HoldingService]->[PatronStore]
+[HoldingService]->[ClassificationApi]
+[HoldingService]->[Catalog]
+
+[Catalog||add;find]
+
+[HoldingService||add;checkOut;checkIn;retrieve;find;isAvailable;transfer;dateDue]
+
+[BranchService||find;]
+
+[PatronService||allPatrons;]
+
+[PatronService]->[Patron]
+
+[PatronStore||find;addHoldingToPatron]
+
+[Holding|barcode;dateCheckedOut;dateLastCheckedIn;branch|isAvailable;checkOut;checkIn;transfer;daysLate]
+
+[Holding]->[Material]
+
+[Material]
+
+[ClassificationApi||retrieveMaterial:classification]
+
+[Patron|holdings|remove: Holding]
+
+[Patron]->[Holding]
+
+[Holding]->[Branch]
+```
 
 ## Context Matters
 
