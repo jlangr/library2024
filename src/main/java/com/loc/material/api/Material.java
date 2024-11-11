@@ -5,7 +5,7 @@ public class Material {
    private String title;
    private String author;
    private String year;
-   private MaterialType format;
+   private int format;
    private String classification;
 
    public Material() {
@@ -15,7 +15,7 @@ public class Material {
                    String author,
                    String title,
                    String classification,
-                   MaterialType format,
+                   int format,
                    String year) {
       this.sourceId = sourceId;
       this.author = author;
@@ -62,11 +62,11 @@ public class Material {
       return year;
    }
 
-   public MaterialType getFormat() {
+   public int getFormat() {
       return format;
    }
 
-   public void setFormat(MaterialType format) {
+   public void setFormat(int format) {
       this.format = format;
    }
 
@@ -82,5 +82,22 @@ public class Material {
    public String toString() {
       return getFormat() + ": " + getClassification() + " " + getSourceId() + " " + getTitle() + " (" + getAuthor()
          + ")";
+   }
+
+   public int getFine(int daysLate) {
+      var fineBasis = MaterialType.dailyFine(getFormat());
+
+      var fine = 0;
+      switch (getFormat()) {
+         case MaterialType.BOOK, MaterialType.NEW_RELEASE_DVD:
+            fine = fineBasis * daysLate;
+            break;
+         case MaterialType.AUDIO_CASSETTE, MaterialType.VINYL_RECORDING, MaterialType.MICRO_FICHE, MaterialType.AUDIO_CD, MaterialType.SOFTWARE_CD, MaterialType.DVD, MaterialType.BLU_RAY, MaterialType.VIDEO_CASSETTE:
+            fine = Math.min(1000, 100 + fineBasis * daysLate);
+            break;
+         default:
+            break;
+      }
+      return fine;
    }
 }

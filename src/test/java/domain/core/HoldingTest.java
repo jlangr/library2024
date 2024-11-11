@@ -11,6 +11,7 @@ import util.DateUtil;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.loc.material.api.MaterialType.*;
 import static domain.core.Branch.CHECKED_OUT;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +32,7 @@ This test class is a mess. Some of the opportunities for cleanup:
 
 class HoldingTest {
    private static final Material THE_TRIAL = new Material("10", "", "10", "", "");
-   private static final Material DR_STRANGELOVE = new Material("12", "", "11", "", MaterialType.DVD, "");
+   private static final Material DR_STRANGELOVE = new Material("12", "", "11", "", DVD, "");
    private static final Material IT = new Material("12", "", "11", "", MaterialType.NEW_RELEASE_DVD, "");
    private Holding holding;
    private static final Date TODAY = new Date();
@@ -72,7 +73,7 @@ class HoldingTest {
       void returnDateForStandardBook() {
          holding.checkOut(TODAY);
          var dateDue = holding.dateDue();
-         assertDateEquals(addDays(TODAY, MaterialType.BOOK.getCheckoutPeriod()), dateDue);
+         assertDateEquals(addDays(TODAY, MaterialType.checkoutPeriod(BOOK)), dateDue);
       }
 
       @Test
@@ -89,12 +90,12 @@ class HoldingTest {
       void testSomething() {
          // movie
          checkOutToday(DR_STRANGELOVE, eastBranch);
-         addDays(TODAY, MaterialType.DVD.getCheckoutPeriod());
-         assertDateEquals(addDays(TODAY, MaterialType.DVD.getCheckoutPeriod()), holding.dateDue());
+         addDays(TODAY, MaterialType.checkoutPeriod(DVD));
+         assertDateEquals(addDays(TODAY, MaterialType.checkoutPeriod(DVD)), holding.dateDue());
 
          // childrens movie
          checkOutToday(IT, eastBranch);
-         var expected = addDays(TODAY, MaterialType.NEW_RELEASE_DVD.getCheckoutPeriod());
+         var expected = addDays(TODAY, MaterialType.checkoutPeriod(NEW_RELEASE_DVD));
          assertDateEquals(expected, holding.dateDue());
       }
 
