@@ -1,5 +1,7 @@
 package com.loc.material.api;
 
+import static com.loc.material.api.MaterialType.*;
+
 public class Material {
    private String sourceId;
    private String title;
@@ -82,5 +84,22 @@ public class Material {
    public String toString() {
       return getFormat() + ": " + getClassification() + " " + getSourceId() + " " + getTitle() + " (" + getAuthor()
          + ")";
+   }
+
+   public int getFine(int daysLate) {
+      var fineBasis = getFormat().getDailyFine();
+
+      var fine = 0;
+      switch (getFormat()) {
+         case MaterialType.BOOK, NEW_RELEASE_DVD:
+            fine = fineBasis * daysLate;
+            break;
+         case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
+            fine = Math.min(1000, 100 + fineBasis * daysLate);
+            break;
+         default:
+            break;
+      }
+      return fine;
    }
 }
