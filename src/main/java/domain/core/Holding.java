@@ -28,10 +28,6 @@ public class Holding {
       this.copyNumber = copyNumber;
    }
 
-   public boolean isLate() {
-      return dateLastCheckedIn().after(dateDue());
-   }
-
    public Material getMaterial() {
       return material;
    }
@@ -114,8 +110,7 @@ public class Holding {
       return material.toString() + "(" + copyNumber + ") @ " + branch.getName();
    }
 
-   public int calculateLateFine() {
-      return material.getFine(daysLate());
+   public boolean isLate() {
+      return dateLastCheckedIn().after(dateDue());
    }
-
 }
