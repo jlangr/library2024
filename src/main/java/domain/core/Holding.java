@@ -1,6 +1,7 @@
 package domain.core;
 
 import com.loc.material.api.Material;
+import com.loc.material.api.MaterialType;
 import util.DateUtil;
 
 import java.util.Date;
@@ -74,7 +75,7 @@ public class Holding {
    }
 
    private int getHoldingPeriod() {
-      return material.getFormat().getCheckoutPeriod();
+      return MaterialType.checkoutPeriod(material.getFormat());
    }
 
    public int checkIn(Date date, Branch branch) {
@@ -84,7 +85,7 @@ public class Holding {
    }
 
    public int daysLate() {
-      Date dateDue = dateDue();
+      var dateDue = dateDue();
       if (dateDue == null) return 0;
       return DateUtil.daysAfter(dateDue, dateLastCheckedIn());
    }

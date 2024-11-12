@@ -42,12 +42,12 @@ public class LibraryController {
 
     private Material createMaterial(MaterialRequest materialRequest) {
        return new Material(
-          materialRequest.getSourceId(),
-          materialRequest.getAuthor(),
-          materialRequest.getTitle(),
-          materialRequest.getClassification(),
-          MaterialType.valueOf(materialRequest.getFormat()),
-          materialRequest.getYear()
+          materialRequest.sourceId(),
+          materialRequest.author(),
+          materialRequest.title(),
+          materialRequest.classification(),
+          materialRequest.format(),
+          materialRequest.year()
        );
     }
 }

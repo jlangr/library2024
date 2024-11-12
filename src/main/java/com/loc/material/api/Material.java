@@ -1,13 +1,11 @@
 package com.loc.material.api;
 
-import static com.loc.material.api.MaterialType.*;
-
 public class Material {
    private String sourceId;
    private String title;
    private String author;
    private String year;
-   private MaterialType format;
+   private int format;
    private String classification;
 
    public Material() {
@@ -17,7 +15,7 @@ public class Material {
                    String author,
                    String title,
                    String classification,
-                   MaterialType format,
+                   int format,
                    String year) {
       this.sourceId = sourceId;
       this.author = author;
@@ -64,11 +62,11 @@ public class Material {
       return year;
    }
 
-   public MaterialType getFormat() {
+   public int getFormat() {
       return format;
    }
 
-   public void setFormat(MaterialType format) {
+   public void setFormat(int format) {
       this.format = format;
    }
 
@@ -87,14 +85,14 @@ public class Material {
    }
 
    public int getFine(int daysLate) {
-      var fineBasis = getFormat().getDailyFine();
+      var fineBasis = MaterialType.dailyFine(getFormat());
 
       var fine = 0;
       switch (getFormat()) {
-         case MaterialType.BOOK, NEW_RELEASE_DVD:
+         case MaterialType.BOOK, MaterialType.NEW_RELEASE_DVD:
             fine = fineBasis * daysLate;
             break;
-         case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
+         case MaterialType.AUDIO_CASSETTE, MaterialType.VINYL_RECORDING, MaterialType.MICRO_FICHE, MaterialType.AUDIO_CD, MaterialType.SOFTWARE_CD, MaterialType.DVD, MaterialType.BLU_RAY, MaterialType.VIDEO_CASSETTE:
             fine = Math.min(1000, 100 + fineBasis * daysLate);
             break;
          default:
