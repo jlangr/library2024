@@ -1,15 +1,12 @@
 package api.library;
 
 import com.loc.material.api.Material;
-import com.loc.material.api.MaterialType;
 import domain.core.*;
 import persistence.PatronNotFoundException;
 import persistence.PatronStore;
 
 import java.util.Date;
 import java.util.List;
-
-import static com.loc.material.api.MaterialType.*;
 
 public class HoldingService {
    private final Catalog catalog = new Catalog();
@@ -92,29 +89,10 @@ public class HoldingService {
       removeBookFromPatron(foundPatron, holding);
 
       if (holding.isLate()) {
-         foundPatron.addFine(calculateLateFine(holding));
+         foundPatron.addFine(holding.calculateLateFine());
          return holding.daysLate();
       }
       return 0;
-   }
-
-   private int calculateLateFine(Holding holding) {
-      var daysLate = holding.daysLate();
-      var fineBasis = MaterialType.dailyFine(holding.getMaterial().getFormat());
-
-      var fine = 0;
-      switch (holding.getMaterial().getFormat()) {
-         case BOOK, NEW_RELEASE_DVD:
-            fine = fineBasis * daysLate;
-            break;
-
-         case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
-            fine = Math.min(1000, 100 + fineBasis * daysLate);
-            break;
-         default:
-            break;
-      }
-      return fine;
    }
 
    private Patron findPatronWith(Holding holding) {

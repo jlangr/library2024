@@ -6,6 +6,8 @@ import util.DateUtil;
 
 import java.util.Date;
 
+import static com.loc.material.api.MaterialType.*;
+
 public class Holding {
    public static final String BARCODE_SEPARATOR = ":";
    private final Material material;
@@ -112,5 +114,24 @@ public class Holding {
 
    public boolean isLate() {
       return dateLastCheckedIn().after(dateDue());
+   }
+
+   public int calculateLateFine() {
+      var daysLate = daysLate();
+      var fineBasis = MaterialType.dailyFine(getMaterial().getFormat());
+
+      var fine = 0;
+      switch (getMaterial().getFormat()) {
+         case BOOK, NEW_RELEASE_DVD:
+            fine = fineBasis * daysLate;
+            break;
+
+         case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
+            fine = Math.min(1000, 100 + fineBasis * daysLate);
+            break;
+         default:
+            break;
+      }
+      return fine;
    }
 }
