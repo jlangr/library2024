@@ -83,21 +83,4 @@ public class Material {
       return getFormat() + ": " + getClassification() + " " + getSourceId() + " " + getTitle() + " (" + getAuthor()
          + ")";
    }
-
-   public int getFine(int daysLate) {
-      var fineBasis = MaterialType.dailyFine(getFormat());
-
-      var fine = 0;
-      switch (getFormat()) {
-         case MaterialType.BOOK, MaterialType.NEW_RELEASE_DVD:
-            fine = fineBasis * daysLate;
-            break;
-         case MaterialType.AUDIO_CASSETTE, MaterialType.VINYL_RECORDING, MaterialType.MICRO_FICHE, MaterialType.AUDIO_CD, MaterialType.SOFTWARE_CD, MaterialType.DVD, MaterialType.BLU_RAY, MaterialType.VIDEO_CASSETTE:
-            fine = Math.min(1000, 100 + fineBasis * daysLate);
-            break;
-         default:
-            break;
-      }
-      return fine;
-   }
 }

@@ -3,16 +3,16 @@ package com.loc.material.api;
 import java.util.Map;
 
 public class MaterialType {
-   public static final int BOOK = 0; //21, 10
-   public static final int AUDIO_CASSETTE = 1; //14, 10
-   public static final int VINYL_RECORDING = 2; //14, 10
-   public static final int MICRO_FICHE = 3; //7, 200
-   public static final int AUDIO_CD = 4; //7, 100
-   public static final int SOFTWARE_CD = 5; //7, 500
-   public static final int DVD = 6; //3, 100
-   public static final int NEW_RELEASE_DVD = 7; //1, 200
-   public static final int BLU_RAY = 8; //3, 200
-   public static final int VIDEO_CASSETTE = 9; //7, 10
+   public static final int BOOK = 0;
+   public static final int AUDIO_CASSETTE = 1;
+   public static final int VINYL_RECORDING = 2;
+   public static final int MICRO_FICHE = 3;
+   public static final int AUDIO_CD = 4;
+   public static final int SOFTWARE_CD = 5;
+   public static final int DVD = 6;
+   public static final int NEW_RELEASE_DVD = 7;
+   public static final int BLU_RAY = 8;
+   public static final int VIDEO_CASSETTE = 9;
 
    private static final Map<Integer, Integer> DAILY_FINE_AMOUNT = Map.of(
       BOOK, 10,
