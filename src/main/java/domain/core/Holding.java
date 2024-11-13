@@ -13,7 +13,6 @@ public class Holding {
    private Date dateCheckedOut;
    private Date dateLastCheckedIn;
    private int copyNumber;
-   private LateStrategyFactory lateStrategyFactory = new LateStrategyFactory();
 
    public Holding(Material material) {
       this(material, Branch.CHECKED_OUT);
@@ -116,8 +115,6 @@ public class Holding {
    }
 
    public int calculateLateFine() {
-      var format = getMaterial().getFormat();
-      var lateStrategy = lateStrategyFactory.create(format);
-      return lateStrategy.calculateFine(MaterialType.dailyFine(format), daysLate());
+      return getMaterial().calculateLateFine(daysLate());
    }
 }

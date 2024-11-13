@@ -1,5 +1,7 @@
 package com.loc.material.api;
 
+import domain.core.LateStrategyFactory;
+
 public class Material {
    private String sourceId;
    private String title;
@@ -7,6 +9,7 @@ public class Material {
    private String year;
    private int format;
    private String classification;
+   private LateStrategyFactory lateStrategyFactory = new LateStrategyFactory();
 
    public Material() {
    }
@@ -82,5 +85,10 @@ public class Material {
    public String toString() {
       return getFormat() + ": " + getClassification() + " " + getSourceId() + " " + getTitle() + " (" + getAuthor()
          + ")";
+   }
+
+   public int calculateLateFine(int daysLate) {
+      var lateStrategy = lateStrategyFactory.create(getFormat());
+      return lateStrategy.calculateFine(MaterialType.dailyFine(getFormat()), daysLate);
    }
 }
