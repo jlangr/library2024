@@ -12,7 +12,7 @@ public class LocalClassificationService implements ClassificationApi {
     }
 
     public void addBook(Material material) {
-        materials.put(material.getSourceId(), material);
+        materials.put(material.sourceId(), material);
     }
 
     @Override

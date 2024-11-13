@@ -119,6 +119,6 @@ class HoldingServiceCheckInCheckOutTest {
 
       service.checkIn(bookHoldingBarcode, oneDayLate, branchScanCode);
 
-      assertEquals(MaterialType.dailyFine(MaterialType.BOOK), patronService.find(patronId).fineBalance());
+      assertEquals(MaterialType.BOOK.dailyFine(), patronService.find(patronId).fineBalance());
    }
 }

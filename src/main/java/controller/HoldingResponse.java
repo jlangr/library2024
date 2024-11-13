@@ -10,7 +10,7 @@ public record HoldingResponse(
    String author,
    String title,
    String year,
-   int format,
+   String format,
    Date dateDue,
    String barcode,
    Integer copyNumber,
@@ -21,10 +21,10 @@ public record HoldingResponse(
     @Serial
     private static final long serialVersionUID = 1L;
     public HoldingResponse(Holding holding) {
-        this(holding.getMaterial().getAuthor(),
-           holding.getMaterial().getTitle(),
-           holding.getMaterial().getYear(),
-           holding.getMaterial().getFormat(),
+        this(holding.getMaterial().author(),
+           holding.getMaterial().title(),
+           holding.getMaterial().year(),
+           holding.getMaterial().materialType().toString(),
            holding.dateDue(),
            holding.getBarcode(),
            holding.getCopyNumber(),

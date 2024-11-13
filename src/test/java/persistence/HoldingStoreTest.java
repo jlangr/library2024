@@ -28,7 +28,7 @@ class HoldingStoreTest {
    }
 
    private String classification(Holding holding) {
-      return holding.getMaterial().getClassification();
+      return holding.getMaterial().classification();
    }
 
    @Test

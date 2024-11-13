@@ -33,7 +33,7 @@ class HoldingServiceTest {
 
       var holding = service.find(barcode);
 
-      assertEquals(isbn, holding.getMaterial().getSourceId());
+      assertEquals(isbn, holding.getMaterial().sourceId());
    }
 
    @Test

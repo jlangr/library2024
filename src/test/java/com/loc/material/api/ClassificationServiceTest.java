@@ -62,10 +62,10 @@ class ClassificationServiceTest {
 
 
    void assertMaterialDetailsForTheRoad(Material material) {
-      assertEquals(THE_ROAD_TITLE, material.getTitle());
-      assertEquals(THE_ROAD_YEAR, material.getYear());
-      assertEquals(THE_ROAD_AUTHOR, material.getAuthor());
-      assertEquals(THE_ROAD_ISBN, material.getSourceId());
-      assertEquals(THE_ROAD_CLASSIFICATION, material.getClassification());
+      assertEquals(THE_ROAD_TITLE, material.title());
+      assertEquals(THE_ROAD_YEAR, material.year());
+      assertEquals(THE_ROAD_AUTHOR, material.author());
+      assertEquals(THE_ROAD_ISBN, material.sourceId());
+      assertEquals(THE_ROAD_CLASSIFICATION, material.classification());
    }
 }

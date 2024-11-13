@@ -26,19 +26,21 @@ public class ClassificationService implements ClassificationApi {
    }
 
    private Map<String, Object> retrieveFirstAuthor(Map<String, Object> jsonObject) {
+      @SuppressWarnings("unchecked")
       var authors = (List<Map<String,Object>>) jsonObject.get("authors");
       var firstAuthorKey = getString(authors.getFirst(), "key");
       return authorClient.retrieve(firstAuthorKey);
    }
 
    private Material createMaterial(String sourceId, Map<String, Object> materialJsonObject, Map<String, Object> authorJsonObject) {
-      var material = new Material();
-      material.setSourceId(sourceId);
-      material.setFormat(MaterialType.BOOK);
-      material.setTitle(getString(materialJsonObject, "title"));
-      material.setYear(getString(materialJsonObject, "publish_date"));
-      material.setAuthor(getString(authorJsonObject, "name"));
-      material.setClassification(getLibraryOfCongressClassification(materialJsonObject));
+      var material = new Material(
+         sourceId,
+         getString(authorJsonObject, "name"),
+         getString(materialJsonObject, "title"),
+         getLibraryOfCongressClassification(materialJsonObject),
+         MaterialType.BOOK,
+         getString(materialJsonObject, "publish_date")
+      );
       return material;
    }
 

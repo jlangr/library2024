@@ -33,7 +33,7 @@ class LibraryDataTest {
       branchService.add("2");
       var material = new Material("3", "", "", "", "");
       when(classificationApi.retrieveMaterial("3")).thenReturn(material);
-      holdingService.add(material.getSourceId(), Branch.CHECKED_OUT.getScanCode());
+      holdingService.add(material.sourceId(), Branch.CHECKED_OUT.getScanCode());
 
       LibraryData.deleteAll();
 

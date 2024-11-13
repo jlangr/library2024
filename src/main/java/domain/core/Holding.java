@@ -1,7 +1,6 @@
 package domain.core;
 
 import com.loc.material.api.Material;
-import com.loc.material.api.MaterialType;
 import util.DateUtil;
 
 import java.util.Date;
@@ -41,7 +40,7 @@ public class Holding {
    }
 
    public String getBarcode() {
-      return new HoldingBarcode(material.getClassification(), copyNumber).barcode();
+      return new HoldingBarcode(material.classification(), copyNumber).barcode();
    }
 
    public void setCopyNumber(int copyNumber) {
@@ -71,7 +70,7 @@ public class Holding {
    }
 
    private int getHoldingPeriod() {
-      return MaterialType.checkoutPeriod(material.getFormat());
+      return material.materialType().checkoutPeriod();
    }
 
    public int checkIn(Date date, Branch branch) {
@@ -101,7 +100,7 @@ public class Holding {
          return false;
       if (this.getClass() != object.getClass())
          return false;
-      Holding that = (Holding) object;
+      var that = (Holding) object;
       return this.getBarcode().equals(that.getBarcode());
    }
 
@@ -115,6 +114,6 @@ public class Holding {
    }
 
    public int calculateLateFine() {
-      return getMaterial().calculateLateFine(daysLate());
+      return material.calculateFine(daysLate());
    }
 }

@@ -21,7 +21,7 @@ public class HoldingStore implements Iterable<Holding> {
     }
 
     public void save(Holding holding) {
-        holdings.put(holding.getMaterial().getClassification(), copy(holding));
+        holdings.put(holding.getMaterial().classification(), copy(holding));
     }
 
     private Holding copy(Holding holding) {

@@ -73,7 +73,7 @@ class HoldingTest {
       void returnDateForStandardBook() {
          holding.checkOut(TODAY);
          var dateDue = holding.dateDue();
-         assertDateEquals(addDays(TODAY, MaterialType.checkoutPeriod(BOOK)), dateDue);
+         assertDateEquals(addDays(TODAY, BOOK.checkoutPeriod()), dateDue);
       }
 
       @Test
@@ -90,12 +90,12 @@ class HoldingTest {
       void testSomething() {
          // movie
          checkOutToday(DR_STRANGELOVE, eastBranch);
-         addDays(TODAY, MaterialType.checkoutPeriod(DVD));
-         assertDateEquals(addDays(TODAY, MaterialType.checkoutPeriod(DVD)), holding.dateDue());
+         addDays(TODAY, DVD.checkoutPeriod());
+         assertDateEquals(addDays(TODAY, DVD.checkoutPeriod()), holding.dateDue());
 
          // childrens movie
          checkOutToday(IT, eastBranch);
-         var expected = addDays(TODAY, MaterialType.checkoutPeriod(NEW_RELEASE_DVD));
+         var expected = addDays(TODAY, NEW_RELEASE_DVD.checkoutPeriod());
          assertDateEquals(expected, holding.dateDue());
       }
 

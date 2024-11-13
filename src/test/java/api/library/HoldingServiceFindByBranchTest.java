@@ -40,7 +40,7 @@ class HoldingServiceFindByBranchTest {
       var holdings = service.findByBranch(branchAScanCode);
 
       var holdingSourceIds = holdings.stream()
-         .map(h -> h.getMaterial().getSourceId())
+         .map(h -> h.getMaterial().sourceId())
          .collect(Collectors.toList());
       assertEquals(List.of("123", "456"), holdingSourceIds);
    }

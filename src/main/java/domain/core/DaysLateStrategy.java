@@ -1,7 +1,13 @@
 package domain.core;
 
 public class DaysLateStrategy implements LateStrategy {
-   public int calculateFine(int fineBasis, int daysLate) {
-      return fineBasis * daysLate;
+   private final int dailyFine;
+
+   public DaysLateStrategy(int dailyFine) {
+      this.dailyFine = dailyFine;
+   }
+
+   public int calculateFine(int daysLate) {
+      return dailyFine * daysLate;
    }
 }
