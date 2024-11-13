@@ -6,8 +6,6 @@ import util.DateUtil;
 
 import java.util.Date;
 
-import static com.loc.material.api.MaterialType.*;
-
 public class Holding {
    public static final String BARCODE_SEPARATOR = ":";
    private final Material material;
@@ -15,6 +13,7 @@ public class Holding {
    private Date dateCheckedOut;
    private Date dateLastCheckedIn;
    private int copyNumber;
+   private LateStrategyFactory lateStrategyFactory = new LateStrategyFactory();
 
    public Holding(Material material) {
       this(material, Branch.CHECKED_OUT);
@@ -117,13 +116,8 @@ public class Holding {
    }
 
    public int calculateLateFine() {
-      var lateStrategy = switch (getMaterial().getFormat()) {
-         case BOOK, NEW_RELEASE_DVD -> new DaysLateStrategy();
-         case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE -> new ConstrainedAmountLateStrategy();
-         default -> (LateStrategy)(fine, daysLate) -> 0;
-      };
-
-      var fineBasis = MaterialType.dailyFine(getMaterial().getFormat());
-      return lateStrategy.calculateFine(fineBasis, daysLate());
+      var format = getMaterial().getFormat();
+      var lateStrategy = lateStrategyFactory.create(format);
+      return lateStrategy.calculateFine(MaterialType.dailyFine(format), daysLate());
    }
 }
