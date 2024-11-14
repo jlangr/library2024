@@ -114,19 +114,6 @@ public class Holding {
    }
 
    public int calculateLateFine() {
-      var daysLate = daysLate();
-      var fineBasis = getMaterial().materialType().dailyFine();
-
-      var fine = 0;
-      switch (getMaterial().materialType()) {
-         case BOOK, NEW_RELEASE_DVD:
-            fine = new DaysLateStrategy().calculateFine(fineBasis, daysLate);
-            break;
-
-         case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
-            fine = new ConstrainedFineStrategy().calculateFine(fineBasis, daysLate);
-            break;
-      }
-      return fine;
+      return getMaterial().materialType().calculateFine(daysLate());
    }
 }
