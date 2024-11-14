@@ -77,7 +77,6 @@ public class HoldingService {
       patronAccess.addHoldingToPatron(patron, holding);
    }
 
-
    public int checkIn(String barCode, Date date, String branchScanCode) {
       var branch = new BranchService().find(branchScanCode);
       var holding = find(barCode);
@@ -89,11 +88,15 @@ public class HoldingService {
       var foundPatron = findPatronWith(holding);
       removeBookFromPatron(foundPatron, holding);
 
-      if (holding.dateLastCheckedIn().after(holding.dateDue())) { // is it late?
+      if (isLate(holding)) {
          foundPatron.addFine(calculateLateFine(holding));
          return holding.daysLate();
       }
       return 0;
+   }
+
+   private boolean isLate(Holding holding) {
+      return holding.dateLastCheckedIn().after(holding.dateDue());
    }
 
    public int calculateLateFine(Holding holding) {
