@@ -4,7 +4,6 @@ import com.loc.material.api.Material;
 import domain.core.*;
 import persistence.PatronNotFoundException;
 import persistence.PatronStore;
-import com.loc.material.api.MaterialType;
 
 import java.util.Date;
 import java.util.List;
@@ -111,8 +110,6 @@ public class HoldingService {
 
          case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
             fine = Math.min(1000, 100 + fineBasis * daysLate);
-            break;
-         default:
             break;
       }
       return fine;
