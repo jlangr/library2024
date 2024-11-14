@@ -112,4 +112,23 @@ public class Holding {
    public boolean isLate() {
       return dateLastCheckedIn().after(dateDue());
    }
+
+   public int calculateLateFine() {
+      var daysLate = daysLate();
+      var fineBasis = getMaterial().materialType().dailyFine();
+
+      var fine = 0;
+      switch (getMaterial().materialType()) {
+         case BOOK, NEW_RELEASE_DVD:
+            fine = fineBasis * daysLate;
+            break;
+
+         case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
+            fine = Math.min(1000, 100 + fineBasis * daysLate);
+            break;
+         default:
+            break;
+      }
+      return fine;
+   }
 }

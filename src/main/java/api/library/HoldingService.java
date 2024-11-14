@@ -88,29 +88,10 @@ public class HoldingService {
       removeBookFromPatron(foundPatron, holding);
 
       if (holding.isLate()) {
-         foundPatron.addFine(calculateLateFine(holding));
+         foundPatron.addFine(holding.calculateLateFine());
          return holding.daysLate();
       }
       return 0;
-   }
-
-   public int calculateLateFine(Holding holding) {
-      var daysLate = holding.daysLate();
-      var fineBasis = holding.getMaterial().materialType().dailyFine();
-
-      var fine = 0;
-      switch (holding.getMaterial().materialType()) {
-         case BOOK, NEW_RELEASE_DVD:
-            fine = fineBasis * daysLate;
-            break;
-
-         case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
-            fine = Math.min(1000, 100 + fineBasis * daysLate);
-            break;
-         default:
-            break;
-      }
-      return fine;
    }
 
    private Patron findPatronWith(Holding holding) {
