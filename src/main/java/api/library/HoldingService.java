@@ -4,7 +4,6 @@ import com.loc.material.api.Material;
 import domain.core.*;
 import persistence.PatronNotFoundException;
 import persistence.PatronStore;
-import com.loc.material.api.MaterialType;
 
 import java.util.Date;
 import java.util.List;
@@ -88,15 +87,11 @@ public class HoldingService {
       var foundPatron = findPatronWith(holding);
       removeBookFromPatron(foundPatron, holding);
 
-      if (isLate(holding)) {
+      if (holding.isLate()) {
          foundPatron.addFine(calculateLateFine(holding));
          return holding.daysLate();
       }
       return 0;
-   }
-
-   private boolean isLate(Holding holding) {
-      return holding.dateLastCheckedIn().after(holding.dateDue());
    }
 
    public int calculateLateFine(Holding holding) {
