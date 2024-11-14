@@ -126,8 +126,6 @@ public class Holding {
          case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
             fine = Math.min(1000, 100 + fineBasis * daysLate);
             break;
-         default:
-            break;
       }
       return fine;
    }
