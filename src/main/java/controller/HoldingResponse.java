@@ -10,7 +10,7 @@ public record HoldingResponse(
    String author,
    String title,
    String year,
-   String format,
+   String materialType,
    Date dateDue,
    String barcode,
    Integer copyNumber,

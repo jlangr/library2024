@@ -40,7 +40,7 @@ public class LibraryController {
 
     @PostMapping(value = "/materials")
     public void addMaterial(@RequestBody MaterialRequest materialRequest) {
-        var materialType = MaterialType.valueOf(materialRequest.format());
+        var materialType = MaterialType.valueOf(materialRequest.materialType());
         if (materialType == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, format("invalid material materialType %s", materialType));
 

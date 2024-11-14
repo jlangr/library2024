@@ -10,8 +10,4 @@ public record Material(String sourceId,
                    String year) {
       this(sourceId, author, title, classification, MaterialType.BOOK, year);
    }
-
-   public int calculateFine(int daysLate) {
-      return materialType.strategy().calculateFine(daysLate);
-   }
 }

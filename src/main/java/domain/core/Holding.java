@@ -108,12 +108,4 @@ public class Holding {
    public String toString() {
       return material.toString() + "(" + copyNumber + ") @ " + branch.getName();
    }
-
-   public boolean isLate() {
-      return dateLastCheckedIn().after(dateDue());
-   }
-
-   public int calculateLateFine() {
-      return material.calculateFine(daysLate());
-   }
 }
