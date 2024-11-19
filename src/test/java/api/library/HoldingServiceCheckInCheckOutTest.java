@@ -13,6 +13,7 @@ import util.DateUtil;
 import java.util.Date;
 import java.util.List;
 
+import static com.loc.material.api.MaterialType.BOOK;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,7 +37,7 @@ class HoldingServiceCheckInCheckOutTest {
    }
 
    String addBookHolding() {
-      var material = new Material("123", "", "", "", MaterialType.BOOK, "");
+      var material = new Material("123", "", "", "", BOOK, "");
       when(classificationApi.retrieveMaterial("123")).thenReturn(material);
       return service.add("123", branchScanCode);
    }
@@ -119,6 +120,6 @@ class HoldingServiceCheckInCheckOutTest {
 
       service.checkIn(bookHoldingBarcode, oneDayLate, branchScanCode);
 
-      assertEquals(MaterialType.BOOK.dailyFine(), patronService.find(patronId).fineBalance());
+      assertEquals(BOOK.calculateFine(1), patronService.find(patronId).fineBalance());
    }
 }

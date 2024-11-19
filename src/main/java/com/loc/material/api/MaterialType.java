@@ -5,29 +5,23 @@ import domain.core.DaysLateStrategy;
 import domain.core.LateStrategy;
 
 public enum MaterialType {
-   BOOK(21, 10, new DaysLateStrategy()),
-   AUDIO_CASSETTE(14, 10, new ConstrainedFineStrategy()),
-   VINYL_RECORDING(14, 10, new ConstrainedFineStrategy()),
-   MICRO_FICHE(7, 200, new ConstrainedFineStrategy()),
-   AUDIO_CD(7, 100, new ConstrainedFineStrategy()),
-   SOFTWARE_CD(7, 500, new ConstrainedFineStrategy()),
-   DVD(3, 100, new ConstrainedFineStrategy()),
-   NEW_RELEASE_DVD(1, 200, new DaysLateStrategy()),
-   BLU_RAY(3, 200, new ConstrainedFineStrategy()),
-   VIDEO_CASSETTE(7, 10, new ConstrainedFineStrategy());
+   BOOK(21, new DaysLateStrategy(10)),
+   AUDIO_CASSETTE(14, new ConstrainedFineStrategy(10)),
+   VINYL_RECORDING(14, new ConstrainedFineStrategy(10)),
+   MICRO_FICHE(7, new ConstrainedFineStrategy(200)),
+   AUDIO_CD(7, new ConstrainedFineStrategy(100)),
+   SOFTWARE_CD(7, new ConstrainedFineStrategy(500)),
+   DVD(3, new ConstrainedFineStrategy(100)),
+   NEW_RELEASE_DVD(1, new DaysLateStrategy(200)),
+   BLU_RAY(3, new ConstrainedFineStrategy(200)),
+   VIDEO_CASSETTE(7, new ConstrainedFineStrategy(10));
 
    private final int checkoutPeriod;
-   private final int dailyFine;
    private final LateStrategy lateStrategy;
 
-   MaterialType(int checkoutPeriod, int dailyFine, LateStrategy lateStrategy) {
+   MaterialType(int checkoutPeriod, LateStrategy lateStrategy) {
       this.checkoutPeriod = checkoutPeriod;
-      this.dailyFine = dailyFine;
       this.lateStrategy = lateStrategy;
-   }
-
-   public int dailyFine() {
-      return dailyFine;
    }
 
    public int checkoutPeriod() {
@@ -35,6 +29,6 @@ public enum MaterialType {
    }
 
    public int calculateFine(int daysLate) {
-      return lateStrategy.calculateFine(dailyFine, daysLate);
+      return lateStrategy.calculateFine(daysLate);
    }
 }
