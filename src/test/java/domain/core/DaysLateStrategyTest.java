@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class DaysLateStrategyTest {
    @Test
    void calculatesFineUsingDaysLateAndBasis() {
-      assertEquals(50, new DaysLateStrategy().calculateFine(10, 5));
+      var fineBasis = 10;
+      assertEquals(50, new DaysLateStrategy(fineBasis).calculateFine(5));
    }
 }

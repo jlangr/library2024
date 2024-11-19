@@ -5,15 +5,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ConstrainedFineStrategyTest {
-   ConstrainedFineStrategy strategy = new ConstrainedFineStrategy();
+   private ConstrainedFineStrategy strategy;
 
    @Test
    void addsDailyFineAmountToMinimumFine() {
-      assertEquals(ConstrainedFineStrategy.BASE_FEE + 5 * 2, strategy.calculateFine(5, 2));
+      strategy = new ConstrainedFineStrategy(5);
+      assertEquals(ConstrainedFineStrategy.BASE_FEE + 5 * 2, strategy.calculateFine(2));
    }
 
    @Test
    void maxesOutFine() {
-      assertEquals(ConstrainedFineStrategy.MAX_FINE, strategy.calculateFine(10, 1000));
+      strategy = new ConstrainedFineStrategy(10);
+      assertEquals(ConstrainedFineStrategy.MAX_FINE, strategy.calculateFine(1000));
    }
 }

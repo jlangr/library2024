@@ -11,16 +11,16 @@ class DegradingFineStrategyTest {
 
    @Test
    void firstDayIsFineBasis() {
-      assertEquals(initialFine, strategy.calculateFine(initialFine, 1));
+      assertEquals(initialFine, strategy.calculateFine(1));
    }
 
    @Test
    void nextDayReducedUsingDegradationRate() {
-      assertEquals(1000 + 900, strategy.calculateFine(initialFine, 2));
+      assertEquals(1000 + 900, strategy.calculateFine(2));
    }
 
    @Test
    void multipleDays() {
-      assertEquals(1000 + 900 + 810 + 729 + 656, strategy.calculateFine(initialFine, 5));
+      assertEquals(1000 + 900 + 810 + 729 + 656, strategy.calculateFine(5));
    }
 }

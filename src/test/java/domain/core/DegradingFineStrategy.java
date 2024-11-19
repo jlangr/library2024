@@ -10,7 +10,7 @@ public class DegradingFineStrategy implements LateStrategy {
    }
 
    @Override
-   public int calculateFine(int fineBasis, int daysLate) {
+   public int calculateFine(int daysLate) {
       double total = fineBasis * (1 - Math.pow(1 - degradationRate, daysLate)) / degradationRate;
       return (int) Math.round(total);
    }
