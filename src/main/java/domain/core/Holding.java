@@ -120,11 +120,11 @@ public class Holding {
       var fine = 0;
       switch (getMaterial().materialType()) {
          case BOOK, NEW_RELEASE_DVD:
-            fine = new DaysLateStrategy().calculateFine(fineBasis, daysLate);
+            fine = new DaysLateStrategy(fineBasis).calculateFine(daysLate);
             break;
 
          case AUDIO_CASSETTE, VINYL_RECORDING, MICRO_FICHE, AUDIO_CD, SOFTWARE_CD, DVD, BLU_RAY, VIDEO_CASSETTE:
-            fine = new ConstrainedFineStrategy().calculateFine(fineBasis, daysLate);
+            fine = new ConstrainedFineStrategy(fineBasis).calculateFine(daysLate);
             break;
       }
       return fine;
