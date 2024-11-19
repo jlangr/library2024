@@ -12,6 +12,6 @@ public class ConstrainedFineStrategy implements LateStrategy{
 
    @Override
    public int calculateFine(int daysLate) {
-      return Math.min(1000, 100 + fineBasis * daysLate);
+      return Math.min(MAX_FINE, BASE_FEE + fineBasis * daysLate);
    }
 }
